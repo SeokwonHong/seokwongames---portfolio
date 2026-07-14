@@ -13,54 +13,90 @@
 <body>
 
   <header>
-    <nav>
-      <a href="index.html">MAIN</a>
-      <a href="PROJECTS.html">PROJECTS</a>
-      <a href="ABOUT.html">ABOUT</a>
-    </nav>
-  </header>
+  <nav>
+    <a href="index.html">MAIN</a>
+    <a href="PROJECTS.html" class="active">PROJECTS</a>
+    <a href="ABOUT.html">ABOUT</a>
+  </nav>
+</header>
 
 
 <main>
-
-
   <section class="projects-grid">
 
-  <article class="project-card">
+    <article class="project-card">
+      <video autoplay muted loop playsinline>
+        <source src="../videos/HYDRA_video.mp4" type="video/mp4">
+        Your browser does not support video.
+      </video>
 
-    <video autoplay muted loop playsinline>
-      <source src="../videos/HYDRA_video.mp4" type="video/mp4">
-      Your browser does not support video.
-    </video>
-
-    <h2>HYDRA</h2>
-    <p>2026</p>
-    <p>
-      An emergent drawing game where players guide thousands of agents.
-    </p>
-
-  </article>
+      <h2>HYDRA</h2>
+      <p>2026</p>
+      <p>An emergent drawing game where players guide thousands of agents.</p>
+    </article>
 
 
- <article class="project-card">
+    <article class="project-card">
+      <video autoplay muted loop playsinline>
+        <source src="../videos/MICROVERSE_video.mp4" type="video/mp4">
+        Your browser does not support video.
+      </video>
 
-    <video autoplay muted loop playsinline>
-      <source src="../videos/MICROVERSE_video.mp4" type="video/mp4">
-      Your browser does not support video.
-    </video>
-
-    <h2>MICROVERSE</h2>
-    <p>2026</p>
-    <p>
-      Self regulating particle life
-    </p>
+      <h2>MICROVERSE</h2>
+      <p>2026</p>
+      <p>Self-regulating particle life.</p>
+    </article>
 
 
-    
+
+    <article class="project-card">
+      <video autoplay muted loop playsinline>
+        <source src="../videos/Node-CUT_video.mp4" type="video/mp4">
+        Your browser does not support video.
+      </video>
+
+      <h2>Node-CUT</h2>
+      <p>2024</p>
+      <p>Binary tree algorithm inspired endless game.</p>
+    </article>
+
+
+
+    <article class="project-card">
+      <video autoplay muted loop playsinline>
+        <source src="../videos/Morse code_video.mp4" type="video/mp4">
+        Your browser does not support video.
+      </video>
+
+      <h2>Morse code</h2>
+      <p>2021</p>
+      <p>The first Morse code typing system.</p>
+    </article>
   </section>
-
 </main>
 
+
+
+<script>
+  window.addEventListener("DOMContentLoaded", () => {
+    document.body.classList.add("page-loaded");
+  });
+
+  document.querySelectorAll("nav a").forEach(link => {
+    link.addEventListener("click", function (event) {
+      event.preventDefault();
+
+      const destination = this.href;
+
+      document.body.classList.remove("page-loaded");
+      document.body.classList.add("fade-out");
+
+      setTimeout(() => {
+        window.location.href = destination;
+      }, 200);
+    });
+  });
+</script>
 
 </body>
 
