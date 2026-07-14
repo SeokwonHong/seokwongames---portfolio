@@ -24,7 +24,7 @@ nav a {
 }
 
 main {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 40px;
 }
@@ -44,13 +44,13 @@ img {
   gap: 60px;
 }
 
-.about-image,
+
 .about-text {
-  width: 50%;
+  width: 80%;
 }
 
 .about-image img {
-  width: 100%;
+  width: 70%;
 }
 
 
