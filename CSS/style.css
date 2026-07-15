@@ -14,8 +14,9 @@ header {
 
 nav {
   display: flex;
-  justify-content: center;
-  gap: 380px;
+  justify-content: space-around;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 
@@ -86,9 +87,6 @@ nav a.active {
   color: black;
 }
 
-body.page-loaded {
-  opacity: 1;
-}
 
 
 /* ABOUT */
@@ -131,12 +129,7 @@ body.page-loaded {
   transition: transform 0.3s ease;
   border-radius: 12px;
 }
-.project-card video {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
-  display: block;
-}
+
 .project-card h2 {
   margin: 15px 0 5px;
   font-size: 24px;

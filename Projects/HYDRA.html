@@ -5,36 +5,41 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>MAIN | Seokwon</title>
+  <title>HYDRA | Seokwon</title>
 
-  <link rel="stylesheet" href="../CSS/style.css"> <!-- for css file link -->
+  <link rel="stylesheet" href="../CSS/style.css">
 </head>
 
 <body>
 
   <header>
-  <nav>
-    <a href="../main page/index.html">MAIN</a>
-    <a href="../main page/PROJECTS.html">PROJECTS</a>
-    <a href="../main page/ABOUT.html">ABOUT</a>
-  </nav>
-</header>
+    <nav>
+      <a href="../index.html">MAIN</a>
+      <a href="../PROJECTS.html">PROJECTS</a>
+      <a href="../ABOUT.html">ABOUT</a>
+    </nav>
+  </header>
 
+  <main class="game-main">
+    <div class="game-container">
+      <iframe
+        src="HYDRA-WebGL/index.html"
+        title="HYDRA WebGL Game"
+        allowfullscreen>
+      </iframe>
+    </div>
+  </main>
 
-<main class="game-main">
-  <div class="game-container">
-    <iframe
-      src="HYDRA-WebGL/index.html"
-      title="HYDRA WebGL Game"
-      allowfullscreen>
-    </iframe>
-  </div>
-</main>
+  <footer>
+    <p>© 2026 Seokwon Hong</p>
+  </footer>
 
+  <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      document.body.classList.add("page-loaded");
+    });
+  </script>
 
+</body>
 
-<script>
-  window.addEventListener("DOMContentLoaded", () => {
-    document.body.classList.add("page-loaded");
-  });
-</script>
+</html>
