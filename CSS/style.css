@@ -9,13 +9,13 @@ body {
 }
 
 header {
-  padding: 15px 0;
+  padding: 30px 0;
 }
 
 nav {
   display: flex;
   justify-content: center;
-  gap: 300px;
+  gap: 380px;
 }
 
 
@@ -79,6 +79,7 @@ body.fade-out {
 nav a {
   color: grey;
   text-decoration: none;
+  font-size: 19px;
 }
 
 nav a.active {
@@ -104,7 +105,7 @@ body.page-loaded {
 }
 
 .about-image img {
-  width: 70%;
+  width: 90%;
   border-radius: 10px;
 }
 
@@ -179,4 +180,11 @@ body.page-loaded {
 /*cursor*/
 .project-card video {
   cursor: pointer;
+}
+/*Credit*/
+footer {
+  text-align: center;
+  padding: 30px 20px;
+  color: grey;
+  font-size: 14px;
 }
