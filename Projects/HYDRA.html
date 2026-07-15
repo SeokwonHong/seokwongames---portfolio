@@ -1,52 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HYDRA | Seokwon Hong</title>
+
+  <title>MAIN | Seokwon</title>
+
+  <link rel="stylesheet" href="../CSS/style.css"> <!-- for css file link -->
 </head>
+
 <body>
 
-  <p><a href="index.html">← Back to Home</a></p>
+  <header>
+  <nav>
+    <a href="../main page/index.html">MAIN</a>
+    <a href="../main page/PROJECTS.html">PROJECTS</a>
+    <a href="../main page/ABOUT.html">ABOUT</a>
+  </nav>
+</header>
 
-  <h1>HYDRA</h1>
-  <h2>Emergent Game / Final Year Project</h2>
 
-  <p>
-    HYDRA is an emergent game where the player controls thousands of agents through drawing.
-    The player guides blue agents towards food while avoiding enemies.
-  </p>
+<main class="game-main">
+  <div class="game-container">
+    <iframe
+      src="HYDRA-WebGL/index.html"
+      title="HYDRA WebGL Game"
+      allowfullscreen>
+    </iframe>
+  </div>
+</main>
 
-  <h2>My Role</h2>
-  <ul>
-    <li>Game Design</li>
-    <li>Programming</li>
-    <li>Art</li>
-    <li>UI/UX Design</li>
-  </ul>
 
-  <h2>Design Focus</h2>
-  <p>
-    I focused on emergent behaviour, dynamic difficulty, replayability, and player guidance.
-    The game was inspired by computer algorithms and behavioural psychology.
-  </p>
 
-  <h2>Key Features</h2>
-  <ul>
-    <li>Player controls thousands of agents instead of one character</li>
-    <li>Drawing-based interaction system</li>
-    <li>Enemy amount changes depending on the number of player agents</li>
-    <li>Different patterns appear based on player behaviour</li>
-  </ul>
-
-  <h2>Recognition</h2>
-  <p>
-    HYDRA received an Honourable Mention for Game Design Excellence at GameBridge Festival in Cambridge, UK.
-  </p>
-
-  <h2>Links</h2>
-  <p><a href="#">Play HYDRA</a></p>
-  <p><a href="#">Watch Trailer</a></p>
-
-</body>
-</html>
+<script>
+  window.addEventListener("DOMContentLoaded", () => {
+    document.body.classList.add("page-loaded");
+  });
+</script>
