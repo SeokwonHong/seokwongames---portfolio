@@ -41,9 +41,13 @@ async function main()
         alphaMode: "premultiplied",
     });
 
+
+    
+
     console.log("Input loaded:" , input);
     console.log("webGPU device:", device);
 
+    // deltatime calculation// there's no such time.deltatime.
     let previousTime = null;
 
     function update(currentTime) {
@@ -60,6 +64,45 @@ async function main()
 
         requestAnimationFrame(update);
     }
+    
+    //particles making initilization
+
+    const particleCount = 100000;
+    const floatsPerParticle = 4;
+
+    const particleData = new Float32Array(particleCount*floatsPerParticle);
+
+    //unlike C# there's no object(class) as array concept.
+    for(let i=0; i<particleCount; i++){
+
+        const index = i*floatsPerParticle; //multipy 4 because we need to put 4 values per particles
+
+        //for random positon
+        particleData[index] = Math.random() * 2 - 1; //random generate between -1 - 1
+        particleData[index+1] = Math.random() * 2 - 1;
+
+        //for velocity
+        particleData[index + 2] =0;
+        particleData[index + 3]=0;
+    }
+    
+    const particleBuffer = device.createBuffer({
+        size: particleData.byteLength,
+
+        usage:
+        GPUBufferUsage.STORAGE | //shaders can read and write this
+        GPUBufferUsage.COPY_DST, //recieve copy data from cpu to gpu
+    });
+
+    device.queue.writeBuffer(
+        particleBuffer,
+        0,
+        particleData
+    );
+    ///
+    
+    
+
 
 
     function render(){
@@ -95,9 +138,10 @@ requestAnimationFrame(update);
 }
 
 
-
-
 main().catch((error)=>
 {
     console.error(error);
 });
+
+
+////////////
