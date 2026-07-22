@@ -17,6 +17,7 @@ async function main()
         throw new Error("WebGPU is not supported in this browser");
     }
 
+    
     const adapter = await navigator.gpu.requestAdapter();
 
     if(!adapter){
@@ -25,7 +26,7 @@ async function main()
 
     //reference to the graphic card
     const device = await adapter.requestDevice();
-    //can be 2d but finna make webgpu
+    //can be 2d but finna make webgpu, more like software toolbox
     const context = canvas.getContext("webgpu");
 
     if(!context){
@@ -68,8 +69,9 @@ async function main()
     //particles making initilization
 
     const particleCount = 100000;
-    const floatsPerParticle = 4;
+    const floatsPerParticle = 4; //two for position(x,y) and two for vector(x,y)
 
+    //set the initial size for array
     const particleData = new Float32Array(particleCount*floatsPerParticle);
 
     //unlike C# there's no object(class) as array concept.
@@ -94,44 +96,132 @@ async function main()
         GPUBufferUsage.COPY_DST, //recieve copy data from cpu to gpu
     });
 
+
+    //send data of particleData to particleBuffer.
     device.queue.writeBuffer(
         particleBuffer,
-        0,
+        0, //start from the beginning
         particleData
     );
+
+    //shader load
+
+    //shaderResponse is like employee I tell him what to do in here
+    const shaderResponse=
+        await fetch("./particleRenderer.wgsl");
+
+    if(!shaderResponse.ok){
+        throw new Error(
+            'Failed to load particleRenderer.wgsl: ${shaderResponse.status}'
+        );
+    }
+    // get the literal codes texts from particleRenderer and send the text to WebGPU, he will understand it.
+    const shaderCode = 
+        await shaderResponse.text();
+
+        //this the visual side GPU module I paste the text from particleRenderer into.
+    const particleShader = 
+        device.createShaderModule({
+            label: "Particle renderer shader",
+            code: shaderCode,
+        });
     ///
     
-    
+    const particleRendererPipeline=
+        device.createRenderPipeline({
+            label: "Particle render pipeline",
+
+            layout: "auto",
+
+            vertex: {
+                module: particleShader,
+                entryPoint: "vertexMain",
+            },
+
+            fragment: {
+                module: particleShader,
+                entryPoint: "fragmentMain",
+
+                targets:[
+                    {
+                        format: canvasFormat,
+                    },
+                ],
+            },
+
+            primitive:{
+                topology: "point-list",
+            },
+        });
 
 
 
-    function render(){
-    const commandEncoder = device.createCommandEncoder();
+    function render() {
+    const commandEncoder =
+        device.createCommandEncoder();
 
     const textureView = context
         .getCurrentTexture()
         .createView();
-    const renderPass = commandEncoder.beginRenderPass({
-        colorAttachments:[
-            {
-                view: textureView,
-                clearValue:{
-                    r:0,
-                    g:0,
-                    b:0,
-                    a:1,
-                },
-                loadOp: "clear",
-                storeOp: "store",
-            },
-        ],
-    });
 
+    const renderPass =
+        commandEncoder.beginRenderPass({
+            colorAttachments: [
+                {
+                    view: textureView,
+
+                    clearValue: {
+                        r: 0,
+                        g: 0,
+                        b: 0,
+                        a: 1,
+                    },
+
+                    loadOp: "clear",
+                    storeOp: "store",
+                },
+            ],
+        });
+
+    renderPass.setPipeline(
+        particleRenderPipeline
+    );
+
+    renderPass.setBindGroup(
+        0,
+        particleBindGroup
+    );
+
+    //actual drawing order
+    renderPass.draw(
+        particleCount
+    );
 
     renderPass.end();
+
     device.queue.submit([
         commandEncoder.finish(),
     ]);
+
+    const particleBindGroup =
+    device.createBindGroup({
+        label: "particle bind group",
+
+        layout:
+            particleRenderPipeline
+                .getBindGroupLayout(0),
+
+        entreis: [
+            {
+                binding: 0,
+
+                resource:{
+                    buffer: particleBuffer,
+                },
+            },
+        ],
+    }),
+
 }
 
 requestAnimationFrame(update);
