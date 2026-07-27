@@ -81,7 +81,13 @@ nav a {
   color: grey;
   text-decoration: none;
   font-size: 19px;
+  transition: color 0.2s ease;
 }
+nav a:hover,
+nav a.active {
+  color: black;
+}
+
 
 nav a.active {
   color: black;
