@@ -125,8 +125,8 @@ async function main()
             label: "Particle renderer shader",
             code: shaderCode,
         });
-    ///
     
+    // this enable me to order what to do in particleRenderer by ordering thorugh the text.
     const particleRendererPipeline=
         device.createRenderPipeline({
             label: "Particle render pipeline",
