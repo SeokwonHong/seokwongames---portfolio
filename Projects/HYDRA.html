@@ -36,76 +36,66 @@
 
   <section class="project-section">
     <h2>Introduction</h2>
-    <p>The game was originally inspired by Cellular Automata (CA), a system pioneered by John von Neumann and Stanislaw Ulam.<br>
-    It is truly fascinating how such a system can generate dynamic phenomena, and I saw an opportunity to translate that dynamic
-    behaviour into dynamic decision-making for players. Sid Meier, the creator of Civilization, famously stated that "a game is a series of 
-    interesting decisions," which aligns perfectly with algorithms driven by dynamic systems.<br>
-    A key limitation of conventional simulation games is that some players find them too complicated because they must learn every game feature,
-    even though the core appeal stems from the freedom of controlling a game system. 
-    That is why I started this project: to create an easy-to-understand game centered on dynamic, open-ended decision-making.</p>
-  </section>    
+    <p>
+      The game was originally inspired by the system of Cellular Automata (CA) invented by John von Neumann and Stanislaw Ulam.<br><br>
+
+      It is truly fascinating how a system could create such dynamic phenomena, and I saw another possibility that dynamic phenomena could create dynamic decision-making for players. Sid Meier, the creator of Civilization, said that “A game is a series of interesting decisions”, which fits with algorithms with dynamic systems. The limitation of conventional simulation games is that, for some players, they feel too complicated to learn every game feature, even though the fun stems from that freedom of controlling a game as a system. That is why I started this project to create an easy-to-understand but dynamic and endless decision-making game.
+    </p>
+  </section>
 
   <section class="project-section">
     <h2>Process</h2>
-    <p>I began the project with MICROVERSE, where I gained fundamental knowledge of low-level physics, optimization, and emergent systems.<br>
-    However, playtesting revealed that players did not find it engaging because executing decisions had little impact on the game's outcome. 
-    According to Human-Computer Interaction (HCI) theory, feedback is essential for player motivation. Because players in MICROVERSE acted as 
-    just one of thousands of automated agents, there was little room for meaningful choice. At the same time, I could not grant the player 
-    significantly greater influence than the automated agents without directly contradicting the core philosophy of emergence. Furthermore, 
-    in a conventional particle life system, agents can only detect nearby entities due to performance constraints, which further 
-    limited the player's reach.<br>
+    <p>
+      I started the project with MICROVERSE, where I gained the fundamental knowledge of low-level physics and optimisation and the way an emergent system works. However, from the playtesting, players did not find it fun to play because the execution of decisions players made did not quite influence the game's outcome. According to HCI theory, feedback is important to increase player motivation, but because the player in MICROVERSE had to play as one of thousands of automated agents, there was no space for players to make meaningful decisions. At the same time, I could not make the player's influence greater than other automated agents, as it was directly against the philosophy of emergence. Moreover, with a conventional particle life system, agents can only detect nearby agents because of the optimisation issue, which further limited the player's influence.<br><br>
 
-    To resolve this design challenge, I integrated an ant colony algorithm on top of the existing particle life system. Each agent deposits 
-    "pheromones" onto a grid-based field, allowing wandering agents to detect these trails and alter their trajectory accordingly. 
-    This mechanism enables agents to perceive and react to entities across a much wider area than conventional particle life systems allow.
+      To resolve this game design issue, I had to apply a distinctive algorithm on top of the particle life I had built, which was an ant colony algorithm. Each agent leaves the so-called ‘pheromone’ on the grid-based field, and the other wandering agents can detect that pheromone and steer their direction based on that. That way, agents can now detect agents in a greater field, unlike conventional particle life.
     </p>
   </section>
 
   <section class="project-section">
     <h2>Distinctive Control</h2>
     <p>
-    To manage thousands of agents efficiently, I designed a distinctive system where players spray pheromones directly onto the 
-    field to guide agent behaviour. This approach makes thousands of agents highly responsive, enhancing player motivation through 
-    clear feedback loops grounded in Self-Determination Theory (SDT) and HCI principles, while preserving optimization 
-    via array-based grid calculations.
+      To control thousands of agents, I invented the distinctive system where the player can spray pheromone on the field, which enables other agents to follow it. This way, I could make thousands of agents really responsive, which could increase player motivation based on good feedback according to Self-Determination Theory (SDT) and HCI theory, while resolving the optimisation issue thanks to array-based grid calculation.
     </p>
   </section>
-  
-  <section class="project-section">
 
-    <h2>Behavioural Studies and Game Design Intention</h2>
-    <p>Applying conventional behavioural psychology to game design cannot fully explain why a game is compelling, as games are 
-    multi-layered media. Furthermore, over-relying on psychological frameworks before establishing a stable system can constrain creativity; 
-    in practice, psychological analysis is most effective during and after development. Nevertheless, analysing behavioural psychology remains 
-    a valuable practice because player behaviour can be influenced and measured.</p>
+  <section class="project-section">
+    <h2>Behaviour studies and game design intention</h2>
+    <p>
+      The application of conventional behavioural psychologies in games alone cannot fully address why a game is fun, as a game is a medium of multiple layers. Moreover, considering all psychology studies before having a rigid system does not often work well because it could limit creativity, and most psychology implementation and analysis work mainly during and after development. However, I still believe applying and analysing behavioural psychology studies in games is good practice, as I personally believe behaviour could be controlled and measured.
+    </p>
 
     <h4>Skinner's Operant Conditioning</h4>
-    <p>According to Skinner's theory of operant conditioning, behaviour is reinforced through rewards (positive reinforcement) and the removal 
-      of negative stimuli (negative reinforcement). In this game, players are motivated when their agents reproduce after consuming 
-      food (positive reinforcement), or when rival enemy agents starve to death (negative reinforcement). Although no explicit UI pops up 
-      when a reward is triggered, these reinforcement structures are directly embedded into the core system mechanics. Tetris is a great 
-      example of this principle: players remain engaged not because of flashy UI effects, but because of the fundamental reward-and-punishment 
-      structure inherent in stacking blocks.</p>
+    <p>
+      Based on Skinner's operant conditioning, the player's behaviour is often reinforced when a reward is given (Positive Reinforcement) and punishment is taken away (Negative Reinforcement). The player will likely be motivated when they reproduce themselves by eating food (Positive Reinforcement), and when enemies disappear by starving to death (Negative Reinforcement). Even though there is no extra UI that pops up every time the player gets rewards, the reward and frustration system is directly embedded inside the system I have made. I think Tetris is well designed for this, as people play it again and again not because they like the fancy UI effects, but mainly because of the fundamental reward and punishment structure directly embedded inside the block-stacking process.
+    </p>
 
-    <h4>Dynamic Difficulty Adjustment (DDA) and Flow State</h4>
-    <p>Dynamic Difficulty Adjustment (DDA) is systematically integrated into the game loop. When blue agents dominate the field 
-      (indicating high player skill), red enemy agents have more opportunities to consume blue agents and reproduce. Conversely, 
-      if blue agents are scarce (indicating player struggle or heavy enemy pressure), fewer red enemies appear because they fail 
-      to feed in time and starve. This mechanism maintains consistent tension regardless of skill level, dynamically altering game 
-      difficulty to keep players in a state of flow, where player skill and game challenge remain balanced.</p>
+    <h4>Dynamic Difficulty Adjustment (DDA) and flow channel</h4>
+    <p>
+      Dynamic Difficulty Adjustment (DDA) is systematically implemented in my game. If there are many blue agents in the field (the player is good at playing the game), there is more chance that red agents eat blues and reproduce themselves, but if there are only a few blue agents (which means the player is bad at playing the game or could not thrive because the red enemies are surrounding them), a fewer number of red enemies will appear because they could not eat blues in time and disappear. This made the tension consistent no matter how skilful the player is, and the game difficulty dynamically changes, which keeps them in flow, which happens when the player's skill and game challenges correspond.
+    </p>
 
-    <h4>Self-Determination Theory (SDT): Competence, Autonomy, and Relatedness</h4>
-    <p>I targeted all three core motivators outlined in Self-Determination Theory (SDT): Competence, Autonomy, and Relatedness.</p>
+    <h4>Self-Determination Theory (SDT) – Competence, Autonomy, Relatedness</h4>
+    <p>
+      I considered following all three factors that can possibly motivate players with Self-Determination Theory (SDT) – Competence, Autonomy and Relatedness.
+    </p>
 
-    <p><strong>Competence:</strong> Players stay engaged when they feel their skill is improving. To support this, I intentionally designed the system to be as responsive as possible to player input, ensuring failure feels like a direct result of player execution rather than system friction. Furthermore, players must continually adapt their tactics to survive longer.</p>
+    <p>
+      <strong>Competence –</strong> When players feel they are getting better every time they play the game, they are likely to play it again. For this, I intentionally designed the system to be as responsive as possible to the player's input, so that the player can feel that failure stems from the player's direct execution. Moreover, the player must set a tactic every time to thrive longer.
+    </p>
 
-    <p><strong>Autonomy:</strong> Players experience autonomy when they feel they can control the system without artificial restrictions. By using drawing gestures, players can dynamically guide blue agents however they choose, offering agency that feels flexible rather than rigid or scripted with high-dimensional decision-making.</p>
+    <p>
+      <strong>Autonomy –</strong> When players genuinely think they can control the system with no limitations, they will likely play again. With a drawing gesture, the player can guide blue agents dynamically however the player wants, which promises players freedom. And its control is not rigid like pressing a keyboard button with scripted behaviour, but requires a higher dimension of decision-making.
+    </p>
 
-    <p><strong>Relatedness:</strong> Relatedness involves feeling socially connected or valued within a group. While often overlooked in single-player experiences, I included a post-game score panel to foster connection. During showcase and festival playtests, this feature performed surprisingly well: players frequently snapped photos of their high scores to compare and share achievements with others.</p>
+    <p>
+      <strong>Relatedness –</strong> Relatedness means feeling socially connected, valued or part of a group. Sometimes Relatedness is ignored in non-multiplayer games, but I put the score panel so that it pops up every time the game is over, so that players can compare their scores with others, and this worked surprisingly well during the many playtests at showcases and festivals. They took photos of the best scores they had achieved and showed them off to other players.
+    </p>
 
-    <h4>Outcome Uncertainty, High Stakes, and the Near-Miss Effect</h4>
-    <p>When only a single blue agent remains, its survival value spikes dramatically; a single misstep can trigger a game over. The uncertainty of whether that final agent will reach food creates high tension. If the attempt fails, the near-miss effect triggers positive frustration (unlike negative frustration caused by poor system design such as latency or bugs), which encourages the player to immediately try again.</p>
-
+    <h4>Outcome uncertainty + high stakes + near-miss effect</h4>
+    <p>
+      When there is only one blue agent left, the value of that agent increases severely, and miscontrol could lead to a game over. It is uncertain whether the player can reach the food or not, and when they fail to reach the food, the near-miss effect works and creates positive frustration (negative frustration prevents players from continuing to play the game, mainly because of a falsely designed system, like latency or a bug), where the player is likely to play the game again.
+    </p>
   </section>
 
 </main>
