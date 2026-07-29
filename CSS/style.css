@@ -180,11 +180,11 @@ nav a.active {
 }
 
 .project-section {
-  margin-bottom: 64px;
+  margin-bottom: 37px;
 }
 
 .project-section h2 {
-  margin: 0 0 20px;
+  margin: 0 0 10px;
   font-size: 1.75rem; /* 28px */
   line-height: 1.25;
   font-weight: 600;
