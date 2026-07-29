@@ -37,14 +37,14 @@
   <section class="project-section">
     <h2>Introduction</h2>
     <p>
-      The game was originally inspired by the system of Cellular Automata (CA) invented by John von Neumann and Stanislaw Ulam.<br><br>
+      The game was originally inspired by the system of Cellular Automata (CA) invented by John von Neumann and Stanislaw Ulam.<br>
 
-      It is truly fascinating how a system could create such dynamic phenomena, and I saw another possibility that dynamic phenomena could create dynamic decision-making for players. Sid Meier, the creator of Civilization, said that “A game is a series of interesting decisions”, which fits with algorithms with dynamic systems. The limitation of conventional simulation games is that, for some players, they feel too complicated to learn every game feature, even though the fun stems from that freedom of controlling a game as a system. That is why I started this project to create an easy-to-understand but dynamic and endless decision-making game.
+      It is truly fascinating how a system could create such dynamic phenomena, and I saw another potential that dynamic phenomena could create dynamic decision-making for players. Sid Meier, the creator of Civilization, said that “A game is a series of interesting decisions”, which fits with algorithms with dynamic systems. The limitation of conventional simulation games is that, for some players, they feel too complicated to learn every game feature, even though the fun stems from that freedom of controlling a game as a system. That is why I started this project to create an easy-to-understand but dynamic and endless decision-making game.
     </p>
   </section>
 
   <section class="project-section">
-    <h2>Process</h2>
+    <h2>Development Process</h2>
     <p>
       I started the project with MICROVERSE, where I gained the fundamental knowledge of low-level physics and optimisation and the way an emergent system works. However, from the playtesting, players did not find it fun to play because the execution of decisions players made did not quite influence the game's outcome. According to HCI theory, feedback is important to increase player motivation, but because the player in MICROVERSE had to play as one of thousands of automated agents, there was no space for players to make meaningful decisions. At the same time, I could not make the player's influence greater than other automated agents, as it was directly against the philosophy of emergence. Moreover, with a conventional particle life system, agents can only detect nearby agents because of the optimisation issue, which further limited the player's influence.<br><br>
 
@@ -53,14 +53,14 @@
   </section>
 
   <section class="project-section">
-    <h2>Distinctive Control</h2>
+    <h2>Pheromone-Based Control</h2>
     <p>
       To control thousands of agents, I invented the distinctive system where the player can spray pheromone on the field, which enables other agents to follow it. This way, I could make thousands of agents really responsive, which could increase player motivation based on good feedback according to Self-Determination Theory (SDT) and HCI theory, while resolving the optimisation issue thanks to array-based grid calculation.
     </p>
   </section>
 
   <section class="project-section">
-    <h2>Behaviour studies and game design intention</h2>
+    <h2>Behavioural Studies and Game Design Intention</h2>
     <p>
       The application of conventional behavioural psychologies in games alone cannot fully address why a game is fun, as a game is a medium of multiple layers. Moreover, considering all psychology studies before having a rigid system does not often work well because it could limit creativity, and most psychology implementation and analysis work mainly during and after development. However, I still believe applying and analysing behavioural psychology studies in games is good practice, as I personally believe behaviour could be controlled and measured.
     </p>
@@ -70,7 +70,7 @@
       Based on Skinner's operant conditioning, the player's behaviour is often reinforced when a reward is given (Positive Reinforcement) and punishment is taken away (Negative Reinforcement). The player will likely be motivated when they reproduce themselves by eating food (Positive Reinforcement), and when enemies disappear by starving to death (Negative Reinforcement). Even though there is no extra UI that pops up every time the player gets rewards, the reward and frustration system is directly embedded inside the system I have made. I think Tetris is well designed for this, as people play it again and again not because they like the fancy UI effects, but mainly because of the fundamental reward and punishment structure directly embedded inside the block-stacking process.
     </p>
 
-    <h4>Dynamic Difficulty Adjustment (DDA) and flow channel</h4>
+    <h4>Dynamic Difficulty Adjustment (DDA) and Flow Channel</h4>
     <p>
       Dynamic Difficulty Adjustment (DDA) is systematically implemented in my game. If there are many blue agents in the field (the player is good at playing the game), there is more chance that red agents eat blues and reproduce themselves, but if there are only a few blue agents (which means the player is bad at playing the game or could not thrive because the red enemies are surrounding them), a fewer number of red enemies will appear because they could not eat blues in time and disappear. This made the tension consistent no matter how skilful the player is, and the game difficulty dynamically changes, which keeps them in flow, which happens when the player's skill and game challenges correspond.
     </p>
@@ -92,7 +92,7 @@
       <strong>Relatedness –</strong> Relatedness means feeling socially connected, valued or part of a group. Sometimes Relatedness is ignored in non-multiplayer games, but I put the score panel so that it pops up every time the game is over, so that players can compare their scores with others, and this worked surprisingly well during the many playtests at showcases and festivals. They took photos of the best scores they had achieved and showed them off to other players.
     </p>
 
-    <h4>Outcome uncertainty + high stakes + near-miss effect</h4>
+    <h4>Outcome Uncertainty, High Stakes, and the Near-Miss Effect</h4>
     <p>
       When there is only one blue agent left, the value of that agent increases severely, and miscontrol could lead to a game over. It is uncertain whether the player can reach the food or not, and when they fail to reach the food, the near-miss effect works and creates positive frustration (negative frustration prevents players from continuing to play the game, mainly because of a falsely designed system, like latency or a bug), where the player is likely to play the game again.
     </p>
