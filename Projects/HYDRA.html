@@ -20,6 +20,7 @@
     </nav>
   </header>
 
+<!-- Actual game -->
   <main class="game-main">
     <div class="game-container">
       <iframe src="/Projects/HYDRA-WebGL"
@@ -28,6 +29,92 @@
       </iframe>
     </div>
   </main>
+
+
+
+<main class="project-page">
+
+  <section class="project-section">
+    
+    
+    <h2>Introduction</h2>
+
+    <p>
+    The game was originally inspired by the system of Cellular Automa (CA) 
+    invented by John von Neumann and Stanislaw Ulam.<br>
+    It is trully facinating how system could create such dynamic phenominum, 
+    and I saw another possibility that dynamic phenominum could create dyncmic decision-making for players.
+    Sid Meier, the creator of Civilizaion, said that "A game is a series of interesting decisions" which fits with algorithms with dynamic systems.
+    The limitation of conventional simulation games are, for some players, feel too complicated to learn every game featues, 
+    eventhough the fun stems from that freedom of controlling a game as a system.
+    That is why I started this project to create, easy to understand, but dynamic and endless decisoin making game.
+    </p>
+
+    <h2>Process</h2>
+
+    <p>
+    I started project with MICROVERSE, where I gained the fundimental knowledge of low level physics and optimization, the way emergent system works.
+    However, from the playtesting, players didnt find it fun to play because the executoin of decision players made, didnt quite influence the game's outcome.
+    According to HCI theory, feedback is important to increase the player motivation, but becasue player in MICROVERSE had to play as one of thousands of automated agents, 
+    there were no space for players to make meaningful decisions. At the same time, I could not make player's influence greater than other automated agents, as its directly against
+    the philosophy of emergence. 
+    Moreover, with conventional particle life system, agents can only detect the nearby agents because of the optimization issue, which limited more of player's influence.</p>
+
+    To resolve this game desgin issue, I had to apply distinctive algorithm on top of particle life I've built, which was ant colony algorithm.
+    Each agents leave the so we called 'pheromon', to the grid-based field, and the wandering other agnets can detect that pheromon and steer the direction based on that.
+    That way, agents can now detect the agents in greater field unlike conventional particle life.
+    </p>
+
+    <h2>Distinctive Control</h2>
+    <p>
+    To control thousands of agents, I invented the distincive system where player can spray pheromon on the field, which will enable other agents to follow it.
+    This way, I could make thousands of agents really responsive which could increase the player motivation based on good feedback according to Self Ditermination Theory (SDT), and HCI theory,
+    while resolving optimization issue thanks to array based grid calculation.
+    </p>
+
+    <h2>Behavior studies and game design intention</h2>
+    <p>
+    Application of conventional behavior phycologies in games alone cannot fully adress why game is fun as the game is a media of multiple layers.
+    Moreover considering all phycologies studies before having rigid system dosent work well oftenly because It could limit the creativity and most of phycologies implementation and alalysis works during and after the development mainly.
+    However, I still believe applying and analizing behavior phycologies studies in games is good practice as I personally believe behavior could be controlled and measred.</p>
+
+    <h3>Skinner's Operant Conditioning</h3><br>
+    Based on the Skinner's operant conditioning, player's behavior often reinforced when the reward is given (Positve Reinforcement) and punishment is taken (Negative Reinforcement).
+    Player will likely to be movivated when they reproduce themselves eating food (Positive Reinforcement), and when enemies dissapear starving to death (Negative Reinforcement).
+    Eventhough there's no extra UI pops up everytime player get rewards, but the reward and frustration system is directly embeded inside of the system I've made.
+    I think the Tetris is well designed for this, as people play it again and again not because they liked the fancy ui effects but mainly because of fundimental reward and punishment structure directyly embeded 
+    inside of block stacking process. <br><br>
+
+    <h3>Dynamic Difficulty Adjustment (DDA) and flow channel</h3><br>
+    Dynamic Difficulty Adjustment (DDA) is systemetically implemented to my game. 
+    If there's many blue agents in the field (player is good at playing game), there's more chance of red agents eat blues and reproduce themselves,
+    but if there's only a few number of blue agents (which means player is bad at playing game, or couldnt thrive becasue the red enemies surrounding them),
+    A fewer amount of red enemies will appear becasue they could not eat blues on time and dissapear.
+    This made the tention consistent no matter how skillful player is and the game difficulty dynamically changes, which kept their flow, which happens when player's skill and game challenges corresponding.
+
+    <h3>Self Ditermination Theory (SDT) - Competence, Autonomy, Relatedness</h3><br>
+    I considered following all three factors that can possibility motivate the players with Self Ditermination Theory (SDT) - Competence, Autonomy and Relatedness.<br><br>
+
+    Competence - When player feels they're getting better everytime they play the game, they're likely to play it again. 
+    For this, I intendidly designed the system as responsive as possilble of player's input, so that player can feel the failure stems from 
+    player's direct execution. Moreover, player must set the tactic everytime to thrive longer.<br><br>
+
+    Autonomy - When player genuinly think they can control the system with no limitation, they will liekly to play again.
+    With drawing gesture, player can guide blue agents dynamically however player wants which promises players freedom. 
+    And it's control is not rigid like pressing keyboard button with scripted behavior but requires higher demention of decision making.<br><br>
+
+    Relatedness - Relateness means feeling socially connected, valued or part of a group. Sometimes Relatedness is ignored in non-multiplayer games, but I put the score panel so that it pops up everytime the game is over, so that players can compare their scores with others, and this worked surprising well
+    during the many playtestings in showcase and festival. They took the photos of the best scores they've achieved and showed off to other players.<br><br>
+
+    <h2>Outcome uncertainty + hight stake + near miss effect</h2>
+    When there's only one blue agent left, the value of that agent increases severly and miss control could lead to game over. It's uncertain that player can reach to the food or not and when they failed to reach to the food, 
+    near miss effect works and creating positive frustration (negative frustration prevents players stop playing the game mainly because of falsely designed system, like latency or bug) where player likely to play the game again.
+
+  </section>
+
+</main>
+
+
 
   <footer>
     <p>© 2026 Seokwon Hong</p>

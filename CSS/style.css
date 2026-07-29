@@ -171,6 +171,38 @@ nav a.active {
 }
 
 
+/* project inner pages*/
+
+.project-page {
+  width: min(760px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 64px 0;
+}
+
+.project-section {
+  margin-bottom: 64px;
+}
+
+.project-section h2 {
+  margin: 0 0 20px;
+  font-size: 1.75rem; /* 28px */
+  line-height: 1.25;
+  font-weight: 600;
+}
+
+.project-section h3 {
+  margin: 40px 0 14px;
+  font-size: 1.25rem; /* 20px */
+  line-height: 1.35;
+  font-weight: 600;
+}
+
+
+.project-section p {
+  margin: 0 0 18px;
+  font-size: 1rem; /* 16px */
+  line-height: 1.6;
+}
 
 
 /*cursor*/
