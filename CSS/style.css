@@ -151,7 +151,7 @@ nav a.active {
 
 .project-details {
   width: min(900px, calc(100% - 40px));
-  margin: 50px auto 20px;
+  margin: 30px auto 20px;
   padding: 22px 0;
 
   display: grid;
