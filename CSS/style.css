@@ -155,8 +155,8 @@ nav a.active {
   padding: 22px 0;
 
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px 50px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 30px 50px;
 
   border-top: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
@@ -166,6 +166,7 @@ nav a.active {
 .detail-heading {
   color: #888;
   font-size: 14px;
+  margin-bottom: 8px;
 }
 
 .detail-content {
