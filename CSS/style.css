@@ -220,7 +220,7 @@ nav a.active {
 
 .project-section h2 {
   margin: 0 0 10px;
-  font-size: 1.75rem; /* 28px */
+  font-size: 1.9rem; /* 28px */
   line-height: 1.25;
   font-weight: 600;
 }
@@ -248,7 +248,7 @@ nav a.active {
 /* project inner pages - videos*/
 .project-video {
   display: block;
-  width: 90%;
+  width: 85%;
   height: auto;
   max-width: 900px;
   margin: 20px auto;
