@@ -40,16 +40,38 @@
     <!--description-->
   <main class="project-page">
 
-    <section class="project-section">
-      <h2>Introduction</h2>
-      <p>
-        The project was originally inspired by cellular automata (CA), pioneered by John von Neumann and Stanisław Ulam.<br>
+      <section class="project-section">
+        <h2>Introduction</h2>
+        <p>
+          The project was originally inspired by cellular automata (CA), pioneered by John von Neumann and Stanisław Ulam.<br>
+          I was particularly interested in emergent systems and algorithms. The systems I researched included Particle Lenia by Alexander Mordvintsev, Lenia by Bert Chan, and Ant Colony Optimisation (ACO) by Marco Dorigo. The game I made prior to this project, Node-CUT, was another reason why I started this project because the game creates dynamic shapes using a binary tree algorithm, which led players to make dynamic decisions. I wanted to scale the system up this time, and an emergent system seemed like a good choice.<br>
+          My initial intention was to create a game in which players control thousands of viruses invading the immune system. However, playtesters did not find it fun because of its controls and core gameplay loop, which led me to create HYDRA.
+        </p>
+      </section>
 
-        I was particularly interested in emergent systems and algorithms. The systems I researched included Particle Lenia by Alexander Mordvintsev, Lenia by Bert Chan, and Ant Colony Optimisation (ACO) by Marco Dorigo.
+
+        <section class="project-section">
+          <h2>Emergent System</h2>
+          <p>
+            Dynamic patterns in emergent systems truly occur when a bottom-up structure is applied. A bottom-up structure is one in which the smallest components, such as atoms, and their interactions with other components create larger phenomena. This is well illustrated by Charles Darwin’s theory of natural selection, in which complex system-level behaviour arises from interactions among simple components. Steven Johnson also describes bottom-up systems through ant colonies and cities, where complex organisation emerges from numerous simple local interactions rather than central control. Many simulation games use this principle to provide players with endless decision-making opportunities. However, some players find it difficult to understand every feature to fully enjoy the freedom these games provide. Therefore, my goal in this project was to create an immediately understandable game with an emergent system, while retaining its main advantages: endless decision-making and visually appealing patterns.
+          </p>
 
 
-      </p>
-    </section>
+        <section class="project-section">
+          <h2>Building System</h2>
+          <p>
+            To successfully realise a bottom-up structure, I had to learn how to create thousands of particles because the greater the number of particles, the easier it is to observe patterns from a distance. Sphere-shaped particles are often used in simulations such as Particle Life because their physics are simpler to calculate based on their radius. I also studied optimisation, as thousands of particles need to detect other nearby particles. Without optimisation, each particle would need to check for collisions against every other particle continuously, which could easily overwhelm the system due to its O(N<sup>2</sup>) complexity.
+
+            I therefore implemented spatial hashing, which checks each particle’s position and assigns it to a hash grid cell. The system then checks that cell and its neighbouring cells for nearby particles. This significantly improved performance.
+
+          </p>
+    </main>
+
+
+
+
+
+
 
 
     <video controls muted playsinline class="project-video">
