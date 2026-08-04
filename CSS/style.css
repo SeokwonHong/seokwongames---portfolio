@@ -256,6 +256,28 @@ nav a.active {
 }
 
 
+/* project inner pages - figure */
+.project-figure {
+  margin: 40px auto;
+  text-align: centre;
+}
+
+.project-diagram {
+  display: block;
+  width: 65%;
+  height: auto;
+  max-width: 800px;
+  margin: 40px auto;
+  border-radius: 6px;
+}
+
+.project-figure figcaption {
+  margin-top: 10px;
+  font-size: 1.1rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
 /*cursor*/
 .project-card video {
   cursor: pointer;
