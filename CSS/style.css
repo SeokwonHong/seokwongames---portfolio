@@ -282,6 +282,82 @@ nav a.active {
 .project-card video {
   cursor: pointer;
 }
+
+/*contents*/
+.article-layout {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 940px);
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.article-layout .project-page {
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+}
+
+.article-contents {
+  display: block;
+  position: static;
+  top: 30px;
+  align-self: start;
+  max-height: calc(100vh - 60px);
+  overflow-y: auto;
+  margin: 25px 0 0;
+  padding-right: 20px;
+  border-right: 1px solid #ddd;
+}
+
+.article-contents a {
+  display: block;
+  margin-bottom: 12px;
+  color: black;
+  font-size: 16px;
+  line-height: 1.4;
+  text-decoration: none;
+}
+
+.article-contents a:hover,
+.article-contents a:focus-visible {
+  text-decoration: underline;
+}
+
+.project-page h2 {
+  scroll-margin-top: 30px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@media (max-width: 800px) {
+  .article-layout {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .article-contents {
+    position: static;
+    max-height: none;
+    border-right: none;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 15px;
+  }
+}
+@media (min-width: 1480px) {
+  .article-layout {
+    grid-template-columns: 220px minmax(0, 940px) 220px;
+    max-width: 1460px;
+  }
+}
+
+
+
 /*Credit*/
 footer {
   text-align: center;
