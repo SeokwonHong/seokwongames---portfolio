@@ -8,7 +8,17 @@
   <title>PROJECT | Seokwon</title>
 
   <link rel="stylesheet" href="../CSS/style.css">
+
+  <!--For codebox-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism-themes/1.9.0/prism-vsc-dark-plus.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.css">
 </head>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-csharp.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/show-language/prism-show-language.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
 
 <body>
 
@@ -46,9 +56,80 @@
       <p>
         This is a Morse code game in which the player must enter letters in Morse code before time runs out.
       </p>
+
+      <pre><code class="language-csharp"> void LetterMaker(string OlRule)
+ {
+     alphabet = '\0';
+     switch (OlRule)
+     {
+         // Basic alphabet
+         case "Ol": alphabet = 'A'; break;
+         case "lOOO": alphabet = 'B'; break;
+         case "lOlO": alphabet = 'C'; break;
+         case "lOO": alphabet = 'D'; break;
+         case "O": alphabet = 'E'; break;
+         case "OOlO": alphabet = 'F'; break;
+         case "llO": alphabet = 'G'; break;
+         case "OOOO": alphabet = 'H'; break;
+         case "OO": alphabet = 'I'; break;
+         case "Olll": alphabet = 'J'; break;
+         case "lOl": alphabet = 'K'; break;
+         case "OlOO": alphabet = 'L'; break;
+         case "ll": alphabet = 'M'; break;
+         case "lO": alphabet = 'N'; break;
+         case "lll": alphabet = 'O'; break;
+         case "OllO": alphabet = 'P'; break;
+         case "llOl": alphabet = 'Q'; break;
+         case "OlO": alphabet = 'R'; break;
+         case "OOO": alphabet = 'S'; break;
+         case "l": alphabet = 'T'; break;
+         case "OOl": alphabet = 'U'; break;
+         case "OOOl": alphabet = 'V'; break;
+         case "Oll": alphabet = 'W'; break;
+         case "lOOl": alphabet = 'X'; break;
+         case "lOll": alphabet = 'Y'; break;
+         case "llOO": alphabet = 'Z'; break;
+
+         // Numbers
+         case "Ollll": alphabet = '1'; break;
+         case "OOlll": alphabet = '2'; break;
+         case "OOOll": alphabet = '3'; break;
+         case "OOOOl": alphabet = '4'; break;
+         case "OOOOO": alphabet = '5'; break;
+         case "lOOOO": alphabet = '6'; break;
+         case "llOOO": alphabet = '7'; break;
+         case "lllOO": alphabet = '8'; break;
+         case "llllO": alphabet = '9'; break;
+         case "lllll": alphabet = '0'; break;
+
+         // Other symbols
+         case "llOOll": alphabet = ','; break;
+         case "OOllOO": alphabet = '?'; break;
+         case "lllOOO": alphabet = ':'; break;
+         case "lOOOOl": alphabet = '-'; break;
+         case "OlOOlO": alphabet = '"'; break;
+         case "lOllO": alphabet = '('; break;
+         case "lOllOl": alphabet = ')'; break;
+         case "lOOOl": alphabet = '='; break;
+         case "OlOlOl": alphabet = '.'; break;
+         case "lOlOlO": alphabet = ';'; break;
+         case "lOOlO": alphabet = '/'; break;
+         case "OllllO": alphabet = '\''; break;
+         case "OllOlO": alphabet = '@'; break;
+         case "OlOlO": alphabet = '+'; break;
+
+         default: alphabet = '\0'; break; // Set the default value (in case no match is found)
+     }
+ }</code></pre>
+
+
+
+
+
     </section>
 
 
+  </main>
 
 
 
