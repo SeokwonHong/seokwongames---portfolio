@@ -1,10 +1,9 @@
 import {createInput} from "./input.js";
-import {loadImageMap} from "./imageMap.js";
 
 
 async function main()
 {
-    const input = createInput();
+
 
     //find.gameobject.go name 
     const canvas = document.querySelector("#gpuCanvas");
@@ -12,6 +11,7 @@ async function main()
     if(!canvas){
         throw new Error("Canvas not found");
     }
+    const input = createInput(canvas);
 
     if(!navigator.gpu){
         throw new Error("WebGPU is not supported in this browser");
@@ -83,7 +83,7 @@ window.addEventListener("resize", resizeCanvas);
 
         deltaTime = Math.min(deltaTime, 0.033);
 
-        render();
+        render(deltaTime);
 
         requestAnimationFrame(update);
     }
@@ -186,8 +186,52 @@ window.addEventListener("resize", resizeCanvas);
         ],
     });
 
-    function render() {
-        const encoder = device.createCommandEncoder();
+    const response = await fetch("./GPU_Shaders/particleCompute.wgsl");
+if (!response.ok) {
+    throw new Error(`Compute shader failed to load: ${response.status}`);
+}
+
+const computePipeline = device.createComputePipeline({
+    layout: "auto",
+    compute: {
+        module: device.createShaderModule({ code: await response.text() }),
+        entryPoint: "updateParticles",
+    },
+});
+
+const frameBuffer = device.createBuffer({
+    size: 16,
+    usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
+});
+
+const computeBindGroup = device.createBindGroup({
+    layout: computePipeline.getBindGroupLayout(0),
+    entries: [
+        { binding: 0, resource: { buffer: particleBuffer } },
+        { binding: 1, resource: { buffer: frameBuffer } },
+    ],
+});
+
+    function render(deltaTime) {
+    device.queue.writeBuffer(frameBuffer, 0, new Float32Array([
+        input.mouseX,
+        input.isInsideCanvas ? input.mouseY : 2, // Put the mouse outside the canvas.
+        deltaTime,
+        canvas.width / canvas.height,
+    ]));
+
+    const encoder = device.createCommandEncoder();
+    const computePass = encoder.beginComputePass();
+    computePass.setPipeline(computePipeline);
+    computePass.setBindGroup(0, computeBindGroup);
+    computePass.dispatchWorkgroups(Math.ceil(particleCount / 64));
+    computePass.end();
+
+    // Your existing render pass starts here.
+
+
+
+
         const renderPass = encoder.beginRenderPass({
             colorAttachments: [{
                 view: context.getCurrentTexture().createView(),
