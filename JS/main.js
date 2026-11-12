@@ -209,6 +209,7 @@ const computeBindGroup = device.createBindGroup({
     entries: [
         { binding: 0, resource: { buffer: particleBuffer } },
         { binding: 1, resource: { buffer: frameBuffer } },
+        { binding: 2, resource: { buffer: particleSizeBuffer } },
     ],
 });
 
