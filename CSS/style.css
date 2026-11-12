@@ -358,7 +358,35 @@ nav a.active {
   }
 }
 
+/*GPU Canvas*/
+.home-page {
+  display: grid;
+  height: 100dvh;
+  grid-template-rows: auto minmax(0, 1fr);
+}
 
+.home-page > main,
+.home-page > footer {
+  grid-area: 2 / 1;
+}
+
+.home-page > main {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+#gpuCanvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+}
+
+.home-page > footer {
+  align-self: end;
+  z-index: 1;
+}
 
 /*Credit*/
 footer {

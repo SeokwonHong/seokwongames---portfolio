@@ -36,6 +36,14 @@ async function main()
     //pixel format and or rgb preference
     const canvasFormat = navigator.gpu.getPreferredCanvasFormat();
 
+    function resizeCanvas() {
+    canvas.width = Math.max(1, Math.round(canvas.clientWidth / 2));
+    canvas.height = Math.max(1, Math.round(canvas.clientHeight / 2));
+}
+
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
+
     context.configure({
         device: device,
         format: canvasFormat,
@@ -68,7 +76,7 @@ async function main()
     
     //particles making initilization
 
-    const particleCount = 100000;
+    const particleCount = 3000;
     const floatsPerParticle = 4; //two for position(x,y) and two for vector(x,y)
 
     //set the initial size for array
@@ -108,7 +116,7 @@ async function main()
 
     //shaderResponse is like employee I tell him what to do in here
     const shaderResponse=
-        await fetch("./particleRenderer.wgsl");
+        await fetch("./GPU_Shaders/particleRenderer.wgsl");
 
     if(!shaderResponse.ok){
         throw new Error(
@@ -156,75 +164,32 @@ async function main()
 
 
 
+        const particleBindGroup = device.createBindGroup({
+        layout: particleRendererPipeline.getBindGroupLayout(0),
+        entries: [
+            { binding: 0, resource: { buffer: particleBuffer } },
+        ],
+    });
+
     function render() {
-    const commandEncoder =
-        device.createCommandEncoder();
-
-    const textureView = context
-        .getCurrentTexture()
-        .createView();
-
-    const renderPass =
-        commandEncoder.beginRenderPass({
-            colorAttachments: [
-                {
-                    view: textureView,
-
-                    clearValue: {
-                        r: 0,
-                        g: 0,
-                        b: 0,
-                        a: 1,
-                    },
-
-                    loadOp: "clear",
-                    storeOp: "store",
-                },
-            ],
+        const encoder = device.createCommandEncoder();
+        const renderPass = encoder.beginRenderPass({
+            colorAttachments: [{
+                view: context.getCurrentTexture().createView(),
+                clearValue: { r: 1, g: 1, b: 1, a: 1 },
+                loadOp: "clear",
+                storeOp: "store",
+            }],
         });
 
-    renderPass.setPipeline(
-        particleRenderPipeline
-    );
+        renderPass.setPipeline(particleRendererPipeline);
+        renderPass.setBindGroup(0, particleBindGroup);
+        renderPass.draw(particleCount);
+        renderPass.end();
+        device.queue.submit([encoder.finish()]);
+    }
 
-    renderPass.setBindGroup(
-        0,
-        particleBindGroup
-    );
-
-    //actual drawing order
-    renderPass.draw(
-        particleCount
-    );
-
-    renderPass.end();
-
-    device.queue.submit([
-        commandEncoder.finish(),
-    ]);
-
-    const particleBindGroup =
-    device.createBindGroup({
-        label: "particle bind group",
-
-        layout:
-            particleRenderPipeline
-                .getBindGroupLayout(0),
-
-        entreis: [
-            {
-                binding: 0,
-
-                resource:{
-                    buffer: particleBuffer,
-                },
-            },
-        ],
-    }),
-
-}
-
-requestAnimationFrame(update);
+    requestAnimationFrame(update);
 }
 
 
