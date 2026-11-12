@@ -36,9 +36,23 @@ async function main()
     //pixel format and or rgb preference
     const canvasFormat = navigator.gpu.getPreferredCanvasFormat();
 
-    function resizeCanvas() {
-    canvas.width = Math.max(1, Math.round(canvas.clientWidth / 2));
-    canvas.height = Math.max(1, Math.round(canvas.clientHeight / 2));
+     const particleDiameter = 6;
+const particleSizeBuffer = device.createBuffer({
+    size: 8,
+    usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
+});
+
+function resizeCanvas() {
+    const width = Math.max(1, canvas.clientWidth);
+    const height = Math.max(1, canvas.clientHeight);
+
+    canvas.width = width;
+    canvas.height = height;
+
+    device.queue.writeBuffer(particleSizeBuffer, 0, new Float32Array([
+        particleDiameter / width,
+        particleDiameter / height,
+    ]));
 }
 
 resizeCanvas();
@@ -76,7 +90,7 @@ window.addEventListener("resize", resizeCanvas);
     
     //particles making initilization
 
-    const particleCount = 3000;
+    const particleCount = 2000;
     const floatsPerParticle = 4; //two for position(x,y) and two for vector(x,y)
 
     //set the initial size for array
@@ -158,7 +172,7 @@ window.addEventListener("resize", resizeCanvas);
             },
 
             primitive:{
-                topology: "point-list",
+                topology: "triangle-strip",
             },
         });
 
@@ -168,6 +182,7 @@ window.addEventListener("resize", resizeCanvas);
         layout: particleRendererPipeline.getBindGroupLayout(0),
         entries: [
             { binding: 0, resource: { buffer: particleBuffer } },
+    { binding: 1, resource: { buffer: particleSizeBuffer } },
         ],
     });
 
@@ -184,7 +199,7 @@ window.addEventListener("resize", resizeCanvas);
 
         renderPass.setPipeline(particleRendererPipeline);
         renderPass.setBindGroup(0, particleBindGroup);
-        renderPass.draw(particleCount);
+        renderPass.draw(4, particleCount);
         renderPass.end();
         device.queue.submit([encoder.finish()]);
     }
