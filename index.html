@@ -26,7 +26,7 @@
 <main style="position: relative;">
   <canvas id="gpuCanvas" width="600" height="250"></canvas>
 
-  <canvas id="textPreview" width="600" height="250"
+  <canvas id="textPreview" width="2200" height="900"
           style="position: absolute; top: 50%; left: 50%;
                  transform: translate(-50%, -50%);
                  max-width: 100%; pointer-events: none;">
@@ -65,7 +65,36 @@
 <script type="module">
   import { drawText } from "./JS/imageMap.js";
 
-  drawText(document.querySelector("#textPreview"), "Hello");
+  const canvas = document.querySelector("#textPreview");
+  const phrases = [
+    { text: "Hello!", duration: 2500 },
+    { text: "I'm Seokwon", duration: 3000 },
+    { text: "Thanks for visiting", duration: 3500 },
+  ];
+
+  let index = 0;
+
+  function showNextPhrase() {
+    const phrase = phrases[index];
+    let visibleLength = 0;
+
+    function typeNextLetter() {
+        visibleLength++;
+       drawText(canvas, phrase.text, visibleLength);
+
+        if (visibleLength < phrase.text.length) {
+            setTimeout(typeNextLetter, 120);
+            return;
+        }
+
+        index = (index + 1) % phrases.length;
+        setTimeout(showNextPhrase, phrase.duration);
+    }
+
+    typeNextLetter();
+}
+
+  showNextPhrase();
 </script>
 
 
