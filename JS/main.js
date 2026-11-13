@@ -1,5 +1,5 @@
 import {createInput} from "./input.js";
-
+import { drawText, sampleTextPoints } from "./imageMap.js";
 
 async function main()
 {
@@ -207,12 +207,19 @@ const frameBuffer = device.createBuffer({
     usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
 });
 
+const targetData = new Float32Array(particleCount * 4);
+const targetBuffer = device.createBuffer({
+    size: targetData.byteLength,
+    usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST,
+});
+
 const computeBindGroup = device.createBindGroup({
     layout: computePipeline.getBindGroupLayout(0),
     entries: [
         { binding: 0, resource: { buffer: particleBuffer } },
         { binding: 1, resource: { buffer: frameBuffer } },
         { binding: 2, resource: { buffer: particleSizeBuffer } },
+        { binding: 3, resource: { buffer: targetBuffer } },
     ],
 });
 
@@ -252,6 +259,40 @@ const computeBindGroup = device.createBindGroup({
         device.queue.submit([encoder.finish()]);
     }
 
+    const textCanvas = document.querySelector("#textPreview");
+const textContext = textCanvas.getContext("2d");
+const phrase = "Hello!";
+const points = sampleTextPoints(textCanvas, phrase, particleCount);
+let visibleLength = 0;
+
+function uploadTargets() {
+    drawText(textCanvas, phrase, visibleLength);
+
+    const { width, height } = textCanvas;
+    const { data } = textContext.getImageData(0, 0, width, height);
+    const scale = Math.min(1, canvas.width / width, canvas.height / height);
+
+    points.forEach(([x, y], i) => {
+        const offset = i * 4;
+        targetData[offset] = (2 * x + 1 - width) * scale / canvas.width;
+        targetData[offset + 1] = (height - 2 * y - 1) * scale / canvas.height;
+        targetData[offset + 2] = data[(y * width + x) * 4 + 3] > 128 ? 1 : 0;
+    });
+
+    device.queue.writeBuffer(targetBuffer, 0, targetData);
+}
+
+function typeNextLetter() {
+    visibleLength++;
+    uploadTargets();
+
+    if (visibleLength < phrase.length) {
+        setTimeout(typeNextLetter, 300);
+    }
+}
+
+window.addEventListener("resize", uploadTargets);
+typeNextLetter();
     requestAnimationFrame(update);
 }
 
