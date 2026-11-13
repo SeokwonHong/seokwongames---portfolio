@@ -290,18 +290,19 @@ fetch("/api/country")
 
     
 const phrases = [
+    { text: "Hello!", hold: 2000 },
+    { text: "I'm Seokwon", hold: 2600 },
+    { portrait: true, hold: 3600 },
+    { text: "I make COOL stuff", hold: 3000 },
+    { text: "Check this out!", finger: true, hold: 2500 },
     { swimming: true },
-    //{ text: "Hello!", hold: 2000 },
-    //{ text: "I'm Seokwon", hold: 2600 },
-   // { portrait: true, hold: 3600 },
-   // { text: "I make COOL stuff", hold: 3000 },
-  //  { text: "Check this out!", finger: true, hold: 2500 },
-  //  { text: "btw...", hold: 2200 },
+
+    //{ text: "btw...", hold: 2200 },
    // { countryGreeting: true, hold: 2800 },
-   // { distanceGreeting: true, hold: 2700 },
+    //{ distanceGreeting: true, hold: 2700 },
   //  { text: "Glad you're here :)", hold: 2700 },
-   // { text: "", hold: 2700 },
-    { swimming: true },
+  //  { text: "", hold: 2700 },
+    
 
 ];
 
@@ -339,14 +340,73 @@ function uploadTargets() {
 const swimmingFrameCount = 431; // First 2 seconds. Set this to your total PNG count for the full clip.
 let swimmingFramesReady;
 
+const swimmingOffsets = [];
+const matchRadius = 18;
+
+for (let dy = -matchRadius; dy <= matchRadius; dy += 3) {
+    for (let dx = -matchRadius; dx <= matchRadius; dx += 3) {
+        const distanceSquared = dx * dx + dy * dy;
+        if (distanceSquared > 0 && distanceSquared <= matchRadius * matchRadius) {
+            swimmingOffsets.push({ dx, dy, distanceSquared });
+        }
+    }
+}
+swimmingOffsets.sort((a, b) => a.distanceSquared - b.distanceSquared);
+
+function matchSwimmingTargets(previous, current) {
+    if (previous.length !== current.length) return current;
+
+    const available = new Map();
+
+    for (const point of current) {
+        const [x, y] = point;
+        const key = `${x},${y}`;
+        if (!available.has(key)) available.set(key, []);
+        available.get(key).push(point);
+    }
+
+    // Reserve exact matches before looking for nearby targets.
+    const matched = previous.map(([x, y]) => available.get(`${x},${y}`)?.pop());
+    const unmatched = [];
+
+    for (let i = 0; i < previous.length; i++) {
+        if (matched[i]) continue;
+
+        const [x, y] = previous[i];
+        for (const { dx, dy } of swimmingOffsets) {
+            const point = available.get(`${x + dx},${y + dy}`)?.pop();
+            if (point) {
+                matched[i] = point;
+                break;
+            }
+        }
+
+        if (!matched[i]) unmatched.push(i);
+    }
+
+    // Pair the leftover points in row order.
+    unmatched.sort((a, b) => previous[a][1] - previous[b][1]
+        || previous[a][0] - previous[b][0]);
+    const remaining = [...available.values()].flat();
+    unmatched.forEach((particle, i) => {
+        matched[particle] = remaining[i];
+    });
+
+    return matched;
+}
+
 async function loadSwimmingFrames() {
     const frames = [];
 
     for (let i = 0; i < swimmingFrameCount; i += 5) {
         const name = `swimming${String(i).padStart(3, "0")}.png`;
         const url = new URL(`../images/swimming/${name}`, import.meta.url);
-        frames.push(await sampleImagePoints(textCanvas, url, particleCount));
-    }
+        const sampled = await sampleImagePoints(textCanvas, url, particleCount, {
+            size: 0.95,
+        });
+        const previous = frames[frames.length - 1];
+        frames.push(previous ? matchSwimmingTargets(previous, sampled) : sampled);
+            }
 
     return frames;
 }
@@ -357,7 +417,7 @@ async function playSwimming() {
     let lastFrame = -1;
 
     function nextFrame(now) {
-        const sourceFrame = Math.floor((now - startedAt) * 30* 0.5 / 1000);
+        const sourceFrame = Math.floor((now - startedAt) * 30 / 1000);
         if (sourceFrame >= swimmingFrameCount) {
             showNextPhrase();
             return;

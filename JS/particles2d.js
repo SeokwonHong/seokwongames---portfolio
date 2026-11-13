@@ -27,7 +27,7 @@ export function createCanvas2DRenderer(canvas, input, particles, targets, diamet
                 const distance = Math.hypot(dx * aspect, dy);
 
                 if (distance > 0.0001 && distance < 0.35) {
-                    const push = 103.5 * (1 - distance / 0.35) * deltaTime / distance;
+                    const push =  70.5 * (1 - distance / 0.35) * deltaTime / distance;
                     vx += dx * push;
                     vy += dy * push;
                 }
