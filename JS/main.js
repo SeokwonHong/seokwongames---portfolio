@@ -290,6 +290,7 @@ fetch("/api/country")
 
     
 const phrases = [
+    { swimming: true },
     { text: "Hello!", hold: 2000 },
     { text: "I'm Seokwon", hold: 2600 },
     { portrait: true, hold: 3600 },
@@ -299,6 +300,8 @@ const phrases = [
     { countryGreeting: true, hold: 2800 },
     { distanceGreeting: true, hold: 2700 },
     { text: "Glad you're here :)", hold: 2700 },
+    { text: "", hold: 2700 },
+    { swimming: true },
 
 ];
 
@@ -307,6 +310,7 @@ let phrase = "";
 let points = [];
 let visibleLength = 0;
 let showingPortrait = false;
+let showingSwimming = false;
 
 function uploadTargets() {
     const { width, height } = textCanvas;
@@ -327,9 +331,51 @@ function uploadTargets() {
     targetData[offset + 1] = ((height - 2 * y - 1) * scale + lift) / canvas.height;
     targetData[offset + 2] =
         isFinger || data === null || data[(y * width + x) * 4 + 3] > 128 ? 1 : 0;
+    targetData[offset + 3] = showingSwimming ? 1 : 0;
 });
 
     renderer.uploadTargets?.();
+}
+const swimmingFrameCount = 431; // First 2 seconds. Set this to your total PNG count for the full clip.
+let swimmingFramesReady;
+
+async function loadSwimmingFrames() {
+    const frames = [];
+
+    for (let i = 0; i < swimmingFrameCount; i += 5) {
+        const name = `swimming${String(i).padStart(3, "0")}.png`;
+        const url = new URL(`../images/swimming/${name}`, import.meta.url);
+        frames.push(await sampleImagePoints(textCanvas, url, particleCount));
+    }
+
+    return frames;
+}
+
+async function playSwimming() {
+    const frames = await (swimmingFramesReady ??= loadSwimmingFrames());
+    const startedAt = performance.now();
+    let lastFrame = -1;
+
+    function nextFrame(now) {
+        const sourceFrame = Math.floor((now - startedAt) * 30* 0.5 / 1000);
+        if (sourceFrame >= swimmingFrameCount) {
+            showNextPhrase();
+            return;
+        }
+
+        const frame = Math.floor(sourceFrame / 5);
+        if (frame !== lastFrame) {
+            lastFrame = frame;
+            points = frames[frame];
+            targetData.fill(0);
+            uploadTargets();
+        }
+
+        requestAnimationFrame(nextFrame);
+    }
+
+    showingPortrait = true;
+    requestAnimationFrame(nextFrame);
 }
 
 async function showNextPhrase() {
@@ -339,6 +385,17 @@ async function showNextPhrase() {
 
     const step = phrases[phraseIndex];
     phraseIndex = (phraseIndex + 1) % phrases.length;
+
+    if (step.swimming) {
+    try {
+        await playSwimming();
+    } catch (error) {
+        swimmingFramesReady = undefined;
+        console.warn("Could not load the swimming frames", error);
+        showNextPhrase();
+    }
+    return;
+}
 
         if (step.portrait) {
         const imagePoints = await portraitPointsReady;
