@@ -23,8 +23,14 @@
 </header>
 
 
-<main>
+<main style="position: relative;">
   <canvas id="gpuCanvas" width="600" height="250"></canvas>
+
+  <canvas id="textPreview" width="600" height="250"
+          style="position: absolute; top: 50%; left: 50%;
+                 transform: translate(-50%, -50%);
+                 max-width: 100%; pointer-events: none;">
+  </canvas>
 </main>
 
 
@@ -54,6 +60,12 @@
       }, 200);
     });
   });
+</script>
+
+<script type="module">
+  import { drawText } from "./JS/imageMap.js";
+
+  drawText(document.querySelector("#textPreview"), "Hello");
 </script>
 
 

@@ -24,6 +24,9 @@ async function main()
         throw new Error("No suitable GPU adapter found");
     }
 
+
+
+
     //reference to the graphic card
     const device = await adapter.requestDevice();
     //can be 2d but finna make webgpu, more like software toolbox
@@ -90,7 +93,7 @@ window.addEventListener("resize", resizeCanvas);
     
     //particles making initilization
 
-    const particleCount = 2000;
+    const particleCount = 3000;
     const floatsPerParticle = 4; //two for position(x,y) and two for vector(x,y)
 
     //set the initial size for array
