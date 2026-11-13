@@ -5,13 +5,23 @@ export default {
         }
 
         const code = request.cf?.country;
-        const countryNames = new Intl.DisplayNames(["en"], {
-            type: "region",
-            fallback: "none",
-        });
+       
+
+        const displayCodes = { 
+            GB: "UK",
+            AE: "UAE",
+            KR: "KOREA",
+            JP: "JAPAN",
+            CN: "CHINA",
+            IN: "INDIA",
+            BR: "BRAZIL",
+            RU: "RUSSIA",
+            PK: "PAKISTAN",
+            NG: "NIGERIA",
+            MX: "MEXICO",};
 
         const country = /^[A-Z]{2}$/.test(code ?? "") && code !== "XX"
-            ? (countryNames.of(code) ?? null)
+            ? (displayCodes[code] ?? code)
             : null;
       
         return Response.json({ country }, {
