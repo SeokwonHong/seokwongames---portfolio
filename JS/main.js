@@ -1,4 +1,5 @@
 import {createInput} from "./input.js";
+import { createCanvas2DRenderer } from "./particles2d.js";
 import { drawText, sampleTextPoints, sampleImagePoints } from "./imageMap.js";
 
 async function main()
@@ -11,67 +12,46 @@ async function main()
     if(!canvas){
         throw new Error("Canvas not found");
     }
-    const input = createInput(canvas);
 
-    if(!navigator.gpu){
-        throw new Error("WebGPU is not supported in this browser");
+        const input = createInput(canvas);
+    let device;
+    let gpuContext;
+
+    try {
+        const adapter = await navigator.gpu?.requestAdapter();
+        if (adapter) {
+            device = await adapter.requestDevice();
+            gpuContext = canvas.getContext("webgpu");
+        }
+    } catch (error) {
+        console.warn("WebGPU startup failed", error);
     }
 
-    
-    const adapter = await navigator.gpu.requestAdapter();
+    const particleCount = gpuContext ? 3500 : 1000;
+    const particleDiameter = 10;
+    const canvasFormat = gpuContext ? navigator.gpu.getPreferredCanvasFormat() : null;
+    const particleSizeBuffer = gpuContext ? device.createBuffer({
+        size: 8,
+        usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
+    }) : null;
 
-    if(!adapter){
-        throw new Error("No suitable GPU adapter found");
+    function resizeCanvas() {
+        const width = Math.max(1, canvas.clientWidth);
+        const height = Math.max(1, canvas.clientHeight);
+        canvas.width = width;
+        canvas.height = height;
+
+        if (particleSizeBuffer) {
+            device.queue.writeBuffer(particleSizeBuffer, 0, new Float32Array([
+                particleDiameter / width,
+                particleDiameter / height,
+            ]));
+        }
     }
 
-
-
-
-    //reference to the graphic card
-    const device = await adapter.requestDevice();
-    //can be 2d but finna make webgpu, more like software toolbox
-    const context = canvas.getContext("webgpu");
-
-    if(!context){
-        throw new Error("Could not create WebGPU context");
-    }
-
-    //pixel format and or rgb preference
-    const canvasFormat = navigator.gpu.getPreferredCanvasFormat();
-
-     const particleDiameter = 10;
-const particleSizeBuffer = device.createBuffer({
-    size: 8,
-    usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
-});
-
-function resizeCanvas() {
-    const width = Math.max(1, canvas.clientWidth);
-    const height = Math.max(1, canvas.clientHeight);
-
-    canvas.width = width;
-    canvas.height = height;
-
-    device.queue.writeBuffer(particleSizeBuffer, 0, new Float32Array([
-        particleDiameter / width,
-        particleDiameter / height,
-    ]));
-}
-
-resizeCanvas();
-window.addEventListener("resize", resizeCanvas);
-
-    context.configure({
-        device: device,
-        format: canvasFormat,
-        alphaMode: "premultiplied",
-    });
-
-
-    
-
-    console.log("Input loaded:" , input);
-    console.log("webGPU device:", device);
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
+    gpuContext?.configure({ device, format: canvasFormat, alphaMode: "premultiplied" });
 
     // deltatime calculation// there's no such time.deltatime.
     let previousTime = null;
@@ -86,14 +66,14 @@ window.addEventListener("resize", resizeCanvas);
 
         deltaTime = Math.min(deltaTime, 0.033);
 
-        render(deltaTime);
+        renderer.render(deltaTime);
 
         requestAnimationFrame(update);
     }
     
     //particles making initilization
 
-    const particleCount = 3500;
+
     const floatsPerParticle = 4; //two for position(x,y) and two for vector(x,y)
 
     //set the initial size for array
@@ -112,7 +92,15 @@ window.addEventListener("resize", resizeCanvas);
         particleData[index + 2] =0;
         particleData[index + 3]=0;
     }
-    
+
+
+    const targetData = new Float32Array(particleCount * 4);
+ const renderer = gpuContext
+     ? await createWebGPURenderer()
+     : { render: createCanvas2DRenderer(canvas, input, particleData, targetData, particleDiameter) };
+
+ async function createWebGPURenderer() {
+
     const particleBuffer = device.createBuffer({
         size: particleData.byteLength,
 
@@ -207,7 +195,7 @@ const frameBuffer = device.createBuffer({
     usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
 });
 
-const targetData = new Float32Array(particleCount * 4);
+
 const targetBuffer = device.createBuffer({
     size: targetData.byteLength,
     usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST,
@@ -245,7 +233,7 @@ const computeBindGroup = device.createBindGroup({
 
         const renderPass = encoder.beginRenderPass({
             colorAttachments: [{
-                view: context.getCurrentTexture().createView(),
+                view: gpuContext.getCurrentTexture().createView(),
                 clearValue: { r: 1, g: 1, b: 1, a: 1 },
                 loadOp: "clear",
                 storeOp: "store",
@@ -258,7 +246,13 @@ const computeBindGroup = device.createBindGroup({
         renderPass.end();
         device.queue.submit([encoder.finish()]);
     }
-
+     return {
+         render,
+         uploadTargets() {
+             device.queue.writeBuffer(targetBuffer, 0, targetData);
+         },
+     };
+ }
 const textCanvas = document.querySelector("#textPreview");
 const textContext = textCanvas.getContext("2d");
 
@@ -329,7 +323,7 @@ function uploadTargets() {
             data === null || data[(y * width + x) * 4 + 3] > 128 ? 1 : 0;
     });
 
-    device.queue.writeBuffer(targetBuffer, 0, targetData);
+    renderer.uploadTargets?.();
 }
 
 async function showNextPhrase() {
