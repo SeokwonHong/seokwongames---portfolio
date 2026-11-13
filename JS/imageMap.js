@@ -1,7 +1,7 @@
 export function drawText(canvas, text, visibleLength = text.length) {
     const context = canvas.getContext("2d");
     context.clearRect(0, 0, canvas.width, canvas.height);
-    context.font = "bold 180px Arial";
+    context.font = "bold 180px Georgia";
     context.fillStyle = "black";
     context.textAlign = "left";
     context.textBaseline = "middle";

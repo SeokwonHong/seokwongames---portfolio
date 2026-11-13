@@ -261,9 +261,20 @@ const computeBindGroup = device.createBindGroup({
 
     const textCanvas = document.querySelector("#textPreview");
 const textContext = textCanvas.getContext("2d");
-const phrase = "Hello!";
-const points = sampleTextPoints(textCanvas, phrase, particleCount);
+
+
+const phrases = [
+    { text: "Hello!", hold: 2500 },
+    { text: "I'm Seokwon", hold: 3000 },
+    { text: "Thanks for visiting", hold: 3500 },
+];
+
+let phraseIndex = 0;
+let phrase = "";
+let points = [];
 let visibleLength = 0;
+
+
 
 function uploadTargets() {
     drawText(textCanvas, phrase, visibleLength);
@@ -281,15 +292,28 @@ function uploadTargets() {
 
     device.queue.writeBuffer(targetBuffer, 0, targetData);
 }
+function showNextPhrase() {
+    phrase = phrases[phraseIndex].text;
+    points = sampleTextPoints(textCanvas, phrase, particleCount);
+    visibleLength = 0;
+    targetData.fill(0);
+    typeNextLetter();
+}
 
 function typeNextLetter() {
     visibleLength++;
     uploadTargets();
 
     if (visibleLength < phrase.length) {
-        setTimeout(typeNextLetter, 300);
+        setTimeout(typeNextLetter, 50);
+        return;
     }
+
+    const hold = phrases[phraseIndex].hold;
+    phraseIndex = (phraseIndex + 1) % phrases.length;
+    setTimeout(showNextPhrase, hold);
 }
+
 
 window.addEventListener("resize", uploadTargets);
 typeNextLetter();
