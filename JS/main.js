@@ -270,13 +270,26 @@ const portraitPointsReady = sampleImagePoints(
     console.warn("Could not load the particle portrait", error);
     return [];
 });
+const fingerPointsReady = sampleImagePoints(
+    textCanvas,
+    new URL("../images/Pointingfinger.png", import.meta.url),
+    particleCount,
+    { size: 0.55, offsetX: -80, offsetY: -220 }
+).catch((error) => {
+    console.warn("Could not load the pointing finger", error);
+    return [];
+});
 
 const phrases = [
     { text: "Hello!", hold: 2500 },
     { text: "I'm Seokwon", hold: 3000 },
     { portrait: true, hold: 4000 },
     { text: "I make COOL stuff", hold: 3500 },
-    { text: "Check them out!", hold: 4500 },
+    { text: "Check them out!", hold: 3500 },
+    { finger: true, hold: 3500 },
+    { text: "You still there?", hold: 3000 },
+    { text: "Hmm...", hold: 2500 },
+  
 ];
 
 let phraseIndex = 0;
@@ -312,22 +325,21 @@ async function showNextPhrase() {
     const step = phrases[phraseIndex];
     phraseIndex = (phraseIndex + 1) % phrases.length;
 
-    if (step.portrait) {
-        const portraitPoints = await portraitPointsReady;
+        if (step.portrait || step.finger) {
+        const imagePoints = await (step.finger ? fingerPointsReady : portraitPointsReady);
 
-        if (portraitPoints.length === 0) {
+        if (imagePoints.length === 0) {
             setTimeout(showNextPhrase, 0);
             return;
         }
 
         showingPortrait = true;
-        points = portraitPoints;
+        points = imagePoints;
         targetData.fill(0);
         uploadTargets();
         setTimeout(showNextPhrase, step.hold);
         return;
     }
-
     showingPortrait = false;
     phrase = step.text;
     points = sampleTextPoints(textCanvas, phrase, particleCount);
@@ -335,7 +347,6 @@ async function showNextPhrase() {
     targetData.fill(0);
     typeNextLetter(step.hold);
 }
-
 function typeNextLetter(hold) {
     visibleLength++;
     uploadTargets();

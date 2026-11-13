@@ -23,7 +23,9 @@ export function sampleTextPoints(canvas, text, count) {
     return sampleCanvasPoints(canvas, count, false);
 }
 
-export async function sampleImagePoints(source, imageUrl, count) {
+export async function sampleImagePoints(
+    source, imageUrl, count, { size = 0.78, offsetX = 0, offsetY=0 } = {}
+) {
     const image = new Image();
     image.src = imageUrl;
     await image.decode();
@@ -35,15 +37,15 @@ export async function sampleImagePoints(source, imageUrl, count) {
     const scale = Math.min(
         canvas.width / image.naturalWidth,
         canvas.height / image.naturalHeight
-    ) * 0.78;
+    ) * size;
 
     const width = image.naturalWidth * scale;
     const height = image.naturalHeight * scale;
 
     canvas.getContext("2d").drawImage(
         image,
-        (canvas.width - width) / 2,
-        (canvas.height - height) / 2,
+        (canvas.width - width) / 2 + offsetX,
+        (canvas.height - height) / 2+offsetY,
         width,
         height
     );
