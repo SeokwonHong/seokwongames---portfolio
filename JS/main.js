@@ -298,8 +298,9 @@ const phrases = [
     { text: "Check them out!", hold: 2500 },
     { finger: true, hold: 2200 },
     { text: "btw...", hold: 2200 },
-    { countryGreeting: true, hold: 2500 },
-  
+    { countryGreeting: true, hold: 2800 },
+    { text: "Glad you're here :)", hold: 2700 },
+
 ];
 
 let phraseIndex = 0;

@@ -16,7 +16,6 @@ export default {
             IN: "INDIA",
             BR: "BRAZIL",
             RU: "RUSSIA",
-            PK: "PAKISTAN",
             NG: "NIGERIA",
             MX: "MEXICO",};
 
