@@ -34,17 +34,12 @@ export function createCanvas2DRenderer(canvas, input, particles, targets, diamet
             }
 
             const active = targets[i + 2] > 0.5;
-            const swimming = targets[i + 3] > 0.5;
-
             if (active) {
-                const pull = swimming ? 220 : 55;
-                vx += (targets[i] - x) * pull * deltaTime;
-                vy += (targets[i + 1] - y) * pull * deltaTime;
+                vx += (targets[i] - x) * 55 * deltaTime;
+                vy += (targets[i + 1] - y) * 55 * deltaTime;
             }
 
-            const damping = active
-                ? (swimming ? Math.exp(-26 * deltaTime) : textDamping)
-                : freeDamping;
+            const damping = active ? textDamping : freeDamping;
             vx *= damping;
             vy *= damping;
             x = Math.max(-edgeX, Math.min(edgeX, x + vx * deltaTime));

@@ -34,12 +34,8 @@ fn updateParticles(@builtin(global_invocation_id) id: vec3u) {
        let letterTarget = targets[id.x];
 
     if (letterTarget.z > 0.5) {
-       let swimming = letterTarget.w > 0.5;
-        let pull = select(55.0, 220.0, swimming);
-        let damping = select(13.0, 26.0, swimming);
-
-        particle.velocity += (letterTarget.xy - particle.position) * pull * frame.deltaTime;
-        particle.velocity *= exp(-damping * frame.deltaTime);
+    particle.velocity += (letterTarget.xy - particle.position) * 55.0 * frame.deltaTime;
+    particle.velocity *= exp(-13.0 * frame.deltaTime);
     } else {
         particle.velocity *= exp(-3.0 * frame.deltaTime);
     }

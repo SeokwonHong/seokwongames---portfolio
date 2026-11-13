@@ -291,16 +291,16 @@ fetch("/api/country")
     
 const phrases = [
     { swimming: true },
-    { text: "Hello!", hold: 2000 },
-    { text: "I'm Seokwon", hold: 2600 },
-    { portrait: true, hold: 3600 },
-    { text: "I make COOL stuff", hold: 3000 },
-    { text: "Check this out!", finger: true, hold: 2500 },
-    { text: "btw...", hold: 2200 },
-    { countryGreeting: true, hold: 2800 },
-    { distanceGreeting: true, hold: 2700 },
-    { text: "Glad you're here :)", hold: 2700 },
-    { text: "", hold: 2700 },
+    //{ text: "Hello!", hold: 2000 },
+    //{ text: "I'm Seokwon", hold: 2600 },
+   // { portrait: true, hold: 3600 },
+   // { text: "I make COOL stuff", hold: 3000 },
+  //  { text: "Check this out!", finger: true, hold: 2500 },
+  //  { text: "btw...", hold: 2200 },
+   // { countryGreeting: true, hold: 2800 },
+   // { distanceGreeting: true, hold: 2700 },
+  //  { text: "Glad you're here :)", hold: 2700 },
+   // { text: "", hold: 2700 },
     { swimming: true },
 
 ];
@@ -310,7 +310,7 @@ let phrase = "";
 let points = [];
 let visibleLength = 0;
 let showingPortrait = false;
-let showingSwimming = false;
+
 
 function uploadTargets() {
     const { width, height } = textCanvas;
@@ -331,7 +331,7 @@ function uploadTargets() {
     targetData[offset + 1] = ((height - 2 * y - 1) * scale + lift) / canvas.height;
     targetData[offset + 2] =
         isFinger || data === null || data[(y * width + x) * 4 + 3] > 128 ? 1 : 0;
-    targetData[offset + 3] = showingSwimming ? 1 : 0;
+
 });
 
     renderer.uploadTargets?.();
