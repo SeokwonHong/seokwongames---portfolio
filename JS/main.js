@@ -363,7 +363,7 @@ async function showNextPhrase() {
 
         phrase = visitorDistanceKm === 0
             ? "We’re under 50 km apart"
-            : `We’re about ${visitorDistanceKm.toLocaleString("en-GB")} km apart`;
+            : `We’re ${visitorDistanceKm.toLocaleString("en-GB")} km apart`;
     } else {
         phrase = step.text;
     }
