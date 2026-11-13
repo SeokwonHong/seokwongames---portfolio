@@ -290,7 +290,7 @@ const phrases = [
     { text: "Hello!", hold: 2000 },
     { text: "I'm Seokwon", hold: 2600 },
     { portrait: true, hold: 3600 },
-    { text: "I make COOL things", hold: 3000 },
+    { text: "I make COOL stuff", hold: 3000 },
     { text: "Check them out!", hold: 2500 },
     { finger: true, hold: 2400 },
     { text: "btw...", hold: 2200 },
