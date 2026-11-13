@@ -266,7 +266,7 @@ const textContext = textCanvas.getContext("2d");
 const phrases = [
     { text: "Hello!", hold: 2500 },
     { text: "I'm Seokwon", hold: 3000 },
-    { text: "Thanks for visiting", hold: 3500 },
+    { text: "What's your name?", hold: 3500 },
 ];
 
 let phraseIndex = 0;

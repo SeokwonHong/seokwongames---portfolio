@@ -23,8 +23,8 @@ fn updateParticles(@builtin(global_invocation_id) id: vec3u) {
     var particle = particles[id.x];
     let away = particle.position - frame.mouse;
     let distanceToMouse = length(away * vec2f(frame.aspect, 1.0));
-    let radius = 0.20;
-    let strength = 33.5;
+    let radius = 0.35;
+    let strength = 103.5;
 
         if (distanceToMouse > 0.0001 && distanceToMouse < radius) {
         let falloff = 1.0 - distanceToMouse / radius;
