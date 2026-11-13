@@ -275,7 +275,8 @@ const phrases = [
     { text: "Hello!", hold: 2500 },
     { text: "I'm Seokwon", hold: 3000 },
     { portrait: true, hold: 4000 },
-    { text: "What's your name?", hold: 3500 },
+    { text: "I make COOL stuff", hold: 3500 },
+    { text: "Check them out!", hold: 4500 },
 ];
 
 let phraseIndex = 0;
