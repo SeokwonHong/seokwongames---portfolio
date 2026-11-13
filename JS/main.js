@@ -264,14 +264,17 @@ const portraitPointsReady = sampleImagePoints(
     console.warn("Could not load the particle portrait", error);
     return [];
 });
-const fingerPointsReady = sampleImagePoints(
+let fingerPoints = [];
+
+sampleImagePoints(
     textCanvas,
     new URL("../images/Pointingfinger.png", import.meta.url),
-    particleCount,
-    { size: 0.46, offsetX: -60, offsetY: -250 }
-).catch((error) => {
+    Math.round(particleCount * 0.3),
+    { size: 0.3, offsetX: -50, offsetY: -330 }
+).then((samples) => {
+    fingerPoints = samples.map(([x, y]) => [x, y, true]);
+}).catch((error) => {
     console.warn("Could not load the pointing finger", error);
-    return [];
 });
 
  let visitorCountry = null;
@@ -291,8 +294,7 @@ const phrases = [
     { text: "I'm Seokwon", hold: 2600 },
     { portrait: true, hold: 3600 },
     { text: "I make COOL stuff", hold: 3000 },
-    { text: "Check them out!", hold: 2500 },
-    { finger: true, hold: 2400 },
+    { text: "Check them out!", finger: true, hold: 2500 },
     { text: "btw...", hold: 2200 },
     { countryGreeting: true, hold: 2800 },
     { distanceGreeting: true, hold: 2700 },
@@ -317,14 +319,15 @@ function uploadTargets() {
 
     const scale = Math.min(1, canvas.width / width, canvas.height / height);
 
-    points.forEach(([x, y], i) => {
-        const offset = i * 4;
-        targetData[offset] = (2 * x + 1 - width) * scale / canvas.width;
-        targetData[offset + 1] =
-    ((height - 2 * y - 1) * scale + (showingPortrait ? 20 : 0)) / canvas.height;
-        targetData[offset + 2] =
-            data === null || data[(y * width + x) * 4 + 3] > 128 ? 1 : 0;
-    });
+    points.forEach(([x, y, isFinger], i) => {
+    const offset = i * 4;
+    const lift = showingPortrait || isFinger ? 20 : 0;
+
+    targetData[offset] = (2 * x + 1 - width) * scale / canvas.width;
+    targetData[offset + 1] = ((height - 2 * y - 1) * scale + lift) / canvas.height;
+    targetData[offset + 2] =
+        isFinger || data === null || data[(y * width + x) * 4 + 3] > 128 ? 1 : 0;
+});
 
     renderer.uploadTargets?.();
 }
@@ -337,8 +340,8 @@ async function showNextPhrase() {
     const step = phrases[phraseIndex];
     phraseIndex = (phraseIndex + 1) % phrases.length;
 
-        if (step.portrait || step.finger) {
-        const imagePoints = await (step.finger ? fingerPointsReady : portraitPointsReady);
+        if (step.portrait) {
+        const imagePoints = await portraitPointsReady;
 
         if (imagePoints.length === 0) {
             setTimeout(showNextPhrase, 0);
@@ -368,7 +371,10 @@ async function showNextPhrase() {
         phrase = step.text;
     }
 
-    points = sampleTextPoints(textCanvas, phrase, particleCount);
+    const hand = step.finger ? fingerPoints : [];
+    const textPoints = sampleTextPoints(textCanvas, phrase, particleCount - hand.length);
+    points = [...textPoints, ...hand];
+
     visibleLength = 0;
     targetData.fill(0);
     typeNextLetter(step.hold);
