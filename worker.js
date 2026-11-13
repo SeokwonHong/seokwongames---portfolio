@@ -5,10 +5,15 @@ export default {
         }
 
         const code = request.cf?.country;
-        const country = /^[A-Z]{2}$/.test(code ?? "") && code !== "XX"
-            ? (code === "GB" ? "UK" : code)
-            : null;
+        const countryNames = new Intl.DisplayNames(["en"], {
+            type: "region",
+            fallback: "none",
+        });
 
+        const country = /^[A-Z]{2}$/.test(code ?? "") && code !== "XX"
+            ? (countryNames.of(code) ?? null)
+            : null;
+      
         return Response.json({ country }, {
             headers: { "Cache-Control": "no-store" },
         });
