@@ -275,11 +275,13 @@ const fingerPointsReady = sampleImagePoints(
 });
 
  let visitorCountry = null;
+ let visitorDistanceKm = null;
 
 fetch("/api/country")
     .then((response) => response.ok ? response.json() : null)
     .then((data) => {
         visitorCountry = data?.country ?? null;
+        visitorDistanceKm = Number.isFinite(data?.distanceKm) ? data.distanceKm : null;
     })
     .catch(() => {});
 
@@ -290,9 +292,10 @@ const phrases = [
     { portrait: true, hold: 3600 },
     { text: "I make COOL things", hold: 3000 },
     { text: "Check them out!", hold: 2500 },
-    { finger: true, hold: 2200 },
+    { finger: true, hold: 2400 },
     { text: "btw...", hold: 2200 },
     { countryGreeting: true, hold: 2800 },
+    { distanceGreeting: true, hold: 2700 },
     { text: "Glad you're here :)", hold: 2700 },
 
 ];
@@ -352,11 +355,18 @@ async function showNextPhrase() {
     showingPortrait = false;
 
 
-    if (step.countryGreeting && !visitorCountry) {
-    return showNextPhrase();
-}
-phrase = step.countryGreeting ? `You from ${visitorCountry}?` : step.text;
+    if (step.countryGreeting) {
+        if (!visitorCountry) return showNextPhrase();
+        phrase = `You from ${visitorCountry}?`;
+    } else if (step.distanceGreeting) {
+        if (visitorDistanceKm === null) return showNextPhrase();
 
+        phrase = visitorDistanceKm === 0
+            ? "We’re under 50 km apart"
+            : `We’re about ${visitorDistanceKm.toLocaleString("en-GB")} km apart`;
+    } else {
+        phrase = step.text;
+    }
 
     points = sampleTextPoints(textCanvas, phrase, particleCount);
     visibleLength = 0;
