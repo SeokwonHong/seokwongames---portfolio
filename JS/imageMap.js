@@ -1,4 +1,6 @@
+
 export function drawText(canvas, text, visibleLength = text.length) {
+    
     const context = canvas.getContext("2d");
     context.clearRect(0, 0, canvas.width, canvas.height);
     context.font = 'bold 180px "Arial", monospace';
@@ -18,14 +20,48 @@ export function drawText(canvas, text, visibleLength = text.length) {
 }
 export function sampleTextPoints(canvas, text, count) {
     drawText(canvas, text);
+    return sampleCanvasPoints(canvas, count, false);
+}
 
+export async function sampleImagePoints(source, imageUrl, count) {
+    const image = new Image();
+    image.src = imageUrl;
+    await image.decode();
+
+    const canvas = document.createElement("canvas");
+    canvas.width = source.width;
+    canvas.height = source.height;
+
+    const scale = Math.min(
+        canvas.width / image.naturalWidth,
+        canvas.height / image.naturalHeight
+    ) * 0.78;
+
+    const width = image.naturalWidth * scale;
+    const height = image.naturalHeight * scale;
+
+    canvas.getContext("2d").drawImage(
+        image,
+        (canvas.width - width) / 2,
+        (canvas.height - height) / 2,
+        width,
+        height
+    );
+
+    return sampleCanvasPoints(canvas, count, true);
+}
+
+function sampleCanvasPoints(canvas, count, darkOnly) {
     const { width, height } = canvas;
     const { data } = canvas.getContext("2d").getImageData(0, 0, width, height);
     const points = [];
 
     for (let y = 0; y < height; y += 3) {
         for (let x = 0; x < width; x += 3) {
-            if (data[(y * width + x) * 4 + 3] > 128) {
+            const i = (y * width + x) * 4;
+            const dark = data[i] + data[i + 1] + data[i + 2] < 384;
+
+            if (data[i + 3] > 128 && (!darkOnly || dark)) {
                 points.push([x, y]);
             }
         }
@@ -37,3 +73,5 @@ export function sampleTextPoints(canvas, text, count) {
         points[Math.floor((i + 0.5) * points.length / count)]
     );
 }
+
+

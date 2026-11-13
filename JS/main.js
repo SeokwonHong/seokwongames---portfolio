@@ -1,5 +1,5 @@
 import {createInput} from "./input.js";
-import { drawText, sampleTextPoints } from "./imageMap.js";
+import { drawText, sampleTextPoints, sampleImagePoints } from "./imageMap.js";
 
 async function main()
 {
@@ -39,7 +39,7 @@ async function main()
     //pixel format and or rgb preference
     const canvasFormat = navigator.gpu.getPreferredCanvasFormat();
 
-     const particleDiameter = 6;
+     const particleDiameter = 10;
 const particleSizeBuffer = device.createBuffer({
     size: 8,
     usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
@@ -93,7 +93,7 @@ window.addEventListener("resize", resizeCanvas);
     
     //particles making initilization
 
-    const particleCount = 3000;
+    const particleCount = 3500;
     const floatsPerParticle = 4; //two for position(x,y) and two for vector(x,y)
 
     //set the initial size for array
@@ -259,13 +259,22 @@ const computeBindGroup = device.createBindGroup({
         device.queue.submit([encoder.finish()]);
     }
 
-    const textCanvas = document.querySelector("#textPreview");
+const textCanvas = document.querySelector("#textPreview");
 const textContext = textCanvas.getContext("2d");
 
+const portraitPointsReady = sampleImagePoints(
+    textCanvas,
+    new URL("../images/TwoColourMe.png", import.meta.url),
+    particleCount
+).catch((error) => {
+    console.warn("Could not load the particle portrait", error);
+    return [];
+});
 
 const phrases = [
     { text: "Hello!", hold: 2500 },
     { text: "I'm Seokwon", hold: 3000 },
+    { portrait: true, hold: 4000 },
     { text: "What's your name?", hold: 3500 },
 ];
 
@@ -273,56 +282,76 @@ let phraseIndex = 0;
 let phrase = "";
 let points = [];
 let visibleLength = 0;
-
-
+let showingPortrait = false;
 
 function uploadTargets() {
-    drawText(textCanvas, phrase, visibleLength);
-
     const { width, height } = textCanvas;
-    const { data } = textContext.getImageData(0, 0, width, height);
+    let data = null;
+
+    if (!showingPortrait) {
+        drawText(textCanvas, phrase, visibleLength);
+        data = textContext.getImageData(0, 0, width, height).data;
+    }
+
     const scale = Math.min(1, canvas.width / width, canvas.height / height);
 
     points.forEach(([x, y], i) => {
         const offset = i * 4;
         targetData[offset] = (2 * x + 1 - width) * scale / canvas.width;
-        targetData[offset + 1] = (height - 2 * y - 1) * scale / canvas.height;
-        targetData[offset + 2] = data[(y * width + x) * 4 + 3] > 128 ? 1 : 0;
+        targetData[offset + 1] =
+    ((height - 2 * y - 1) * scale + (showingPortrait ? 20 : 0)) / canvas.height;
+        targetData[offset + 2] =
+            data === null || data[(y * width + x) * 4 + 3] > 128 ? 1 : 0;
     });
 
     device.queue.writeBuffer(targetBuffer, 0, targetData);
 }
-function showNextPhrase() {
-    phrase = phrases[phraseIndex].text;
+
+async function showNextPhrase() {
+    const step = phrases[phraseIndex];
+    phraseIndex = (phraseIndex + 1) % phrases.length;
+
+    if (step.portrait) {
+        const portraitPoints = await portraitPointsReady;
+
+        if (portraitPoints.length === 0) {
+            setTimeout(showNextPhrase, 0);
+            return;
+        }
+
+        showingPortrait = true;
+        points = portraitPoints;
+        targetData.fill(0);
+        uploadTargets();
+        setTimeout(showNextPhrase, step.hold);
+        return;
+    }
+
+    showingPortrait = false;
+    phrase = step.text;
     points = sampleTextPoints(textCanvas, phrase, particleCount);
     visibleLength = 0;
     targetData.fill(0);
-    typeNextLetter();
+    typeNextLetter(step.hold);
 }
 
-function typeNextLetter() {
+function typeNextLetter(hold) {
     visibleLength++;
     uploadTargets();
 
     if (visibleLength < phrase.length) {
-        setTimeout(typeNextLetter, 50);
-        return;
+        setTimeout(typeNextLetter, 50, hold);
+    } else {
+        setTimeout(showNextPhrase, hold);
     }
-
-    const hold = phrases[phraseIndex].hold;
-    phraseIndex = (phraseIndex + 1) % phrases.length;
-    setTimeout(showNextPhrase, hold);
 }
 
-
-window.addEventListener("resize", uploadTargets);
-showNextPhrase();
+       window.addEventListener("resize", uploadTargets);
+    showNextPhrase();
     requestAnimationFrame(update);
 }
 
-
-main().catch((error)=>
-{
+main().catch((error) => {
     console.error(error);
 });
 
