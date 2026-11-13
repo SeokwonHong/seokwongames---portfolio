@@ -27,7 +27,7 @@ async function main()
         console.warn("WebGPU startup failed", error);
     }
 
-    const particleCount = gpuContext ? 3500 : 1000;
+    const particleCount = gpuContext ? 3500 : 3000;
     const particleDiameter = 10;
     const canvasFormat = gpuContext ? navigator.gpu.getPreferredCanvasFormat() : null;
     const particleSizeBuffer = gpuContext ? device.createBuffer({
