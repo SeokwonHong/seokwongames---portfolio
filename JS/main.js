@@ -316,7 +316,7 @@ function typeNextLetter() {
 
 
 window.addEventListener("resize", uploadTargets);
-typeNextLetter();
+showNextPhrase();
     requestAnimationFrame(update);
 }
 
