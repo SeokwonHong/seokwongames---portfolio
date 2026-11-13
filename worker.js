@@ -19,9 +19,19 @@ export default {
             NG: "NIGERIA",
             MX: "MEXICO",};
 
-        const country = /^[A-Z]{2}$/.test(code ?? "") && code !== "XX"
-            ? (displayCodes[code] ?? code)
-            : null;
+       const countryNames = new Intl.DisplayNames(["en"], {
+    type: "region",
+    fallback: "none",
+        });
+
+        let country = null;
+        if (/^[A-Z]{2}$/.test(code ?? "") && code !== "XX") {
+            const name = countryNames.of(code);
+            const label = name && name.length <= 7
+            ? name.toUpperCase()
+            : code;
+            country = displayCodes[code] ?? label;
+}
       
         return Response.json({ country }, {
             headers: { "Cache-Control": "no-store" },
