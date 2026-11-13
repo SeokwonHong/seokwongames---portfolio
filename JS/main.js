@@ -274,21 +274,31 @@ const fingerPointsReady = sampleImagePoints(
     textCanvas,
     new URL("../images/Pointingfinger.png", import.meta.url),
     particleCount,
-    { size: 0.55, offsetX: -80, offsetY: -220 }
+    { size: 0.46, offsetX: -60, offsetY: -250 }
 ).catch((error) => {
     console.warn("Could not load the pointing finger", error);
     return [];
 });
 
+ let visitorCountry = null;
+
+fetch("/api/country")
+    .then((response) => response.ok ? response.json() : null)
+    .then((data) => {
+        visitorCountry = data?.country ?? null;
+    })
+    .catch(() => {});
+
+    
 const phrases = [
-    { text: "Hello!", hold: 2500 },
-    { text: "I'm Seokwon", hold: 3000 },
-    { portrait: true, hold: 4000 },
-    { text: "I make COOL stuff", hold: 3500 },
-    { text: "Check them out!", hold: 3500 },
-    { finger: true, hold: 3500 },
-    { text: "You still there?", hold: 3000 },
-    { text: "Hmm...", hold: 2500 },
+    { text: "Hello!", hold: 2000 },
+    { text: "I'm Seokwon", hold: 2600 },
+    { portrait: true, hold: 3600 },
+    { text: "I make COOL things", hold: 3000 },
+    { text: "Check them out!", hold: 2500 },
+    { finger: true, hold: 2200 },
+    { text: "btw...", hold: 2200 },
+    { countryGreeting: true, hold: 2500 },
   
 ];
 
@@ -322,6 +332,10 @@ function uploadTargets() {
 }
 
 async function showNextPhrase() {
+
+   
+
+
     const step = phrases[phraseIndex];
     phraseIndex = (phraseIndex + 1) % phrases.length;
 
@@ -341,7 +355,14 @@ async function showNextPhrase() {
         return;
     }
     showingPortrait = false;
-    phrase = step.text;
+
+
+    if (step.countryGreeting && !visitorCountry) {
+    return showNextPhrase();
+}
+phrase = step.countryGreeting ? `You from ${visitorCountry}?` : step.text;
+
+
     points = sampleTextPoints(textCanvas, phrase, particleCount);
     visibleLength = 0;
     targetData.fill(0);
