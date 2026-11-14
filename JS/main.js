@@ -408,13 +408,27 @@ function matchSwimmingTargets(previous, current) {
         if (!matched[i]) unmatched.push(i);
     }
 
-    // Pair the leftover points in row order.
-    unmatched.sort((a, b) => previous[a][1] - previous[b][1]
-        || previous[a][0] - previous[b][0]);
     const remaining = [...available.values()].flat();
-    unmatched.forEach((particle, i) => {
-        matched[particle] = remaining[i];
-    });
+
+for (const particle of unmatched) {
+    const [x, y] = previous[particle];
+    let bestIndex = 0;
+    let bestDistance = Infinity;
+
+    for (let i = 0; i < remaining.length; i++) {
+        const [targetX, targetY] = remaining[i];
+        const distance = (targetX - x) ** 2 + (targetY - y) ** 2;
+
+        if (distance < bestDistance) {
+            bestDistance = distance;
+            bestIndex = i;
+        }
+    }
+
+    matched[particle] = remaining[bestIndex];
+    remaining[bestIndex] = remaining[remaining.length - 1];
+    remaining.pop();
+}
 
     return matched;
 }
@@ -426,7 +440,7 @@ async function loadSwimmingFrames(count = particleCount){
         const name = `swimming${String(i).padStart(3, "0")}.png`;
         const url = new URL(`../images/swimming/${name}`, import.meta.url);
         const sampled = await sampleImagePoints(textCanvas, url, count, {
-            size: 0.95,
+            size: 1,
         });
         const previous = frames[frames.length - 1];
         frames.push(previous ? matchSwimmingTargets(previous, sampled) : sampled);
