@@ -48,6 +48,30 @@ async function main()
             ]));
         }
     }
+    const swimmingPage = document.body.hasAttribute("data-swimming-page");
+    const savedParticleCount = 3500;
+    const firstChunkPoses = 6;
+
+    async function readSwimmingChunk(part, poseCount) {
+        const url = new URL(`../images/swimming/swimming-${part}.bin`, import.meta.url);
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`${part} download failed (${response.status})`);
+
+        const bytes = await response.arrayBuffer();
+        if (bytes.byteLength !== poseCount * savedParticleCount * 4) {
+            throw new Error(`Unexpected size for swimming-${part}.bin`);
+        }
+
+        return new DataView(bytes);
+    }
+
+    let swimmingStart = swimmingPage
+        ? readSwimmingChunk("start", firstChunkPoses).catch(error => {
+            console.error(error);
+            return null;
+        })
+        : undefined;
+    let swimmingRest;
 
     resizeCanvas();
     window.addEventListener("resize", resizeCanvas);
@@ -121,7 +145,7 @@ async function main()
 
     //shaderResponse is like employee I tell him what to do in here
     const shaderResponse=
-        await fetch("./GPU_Shaders/particleRenderer.wgsl");
+        await fetch("/GPU_Shaders/particleRenderer.wgsl");
 
     if(!shaderResponse.ok){
         throw new Error(
@@ -177,7 +201,7 @@ async function main()
         ],
     });
 
-    const response = await fetch("./GPU_Shaders/particleCompute.wgsl");
+    const response = await fetch("/GPU_Shaders/particleCompute.wgsl");
 if (!response.ok) {
     throw new Error(`Compute shader failed to load: ${response.status}`);
 }
@@ -395,13 +419,13 @@ function matchSwimmingTargets(previous, current) {
     return matched;
 }
 
-async function loadSwimmingFrames() {
+async function loadSwimmingFrames(count = particleCount){
     const frames = [];
 
     for (let i = 0; i < swimmingFrameCount; i += 5) {
         const name = `swimming${String(i).padStart(3, "0")}.png`;
         const url = new URL(`../images/swimming/${name}`, import.meta.url);
-        const sampled = await sampleImagePoints(textCanvas, url, particleCount, {
+        const sampled = await sampleImagePoints(textCanvas, url, count, {
             size: 0.95,
         });
         const previous = frames[frames.length - 1];
@@ -410,23 +434,91 @@ async function loadSwimmingFrames() {
 
     return frames;
 }
+let swimmingExportReady;
+
+window.exportSwimming = async function (part) {
+    const count = 3500;
+    const poses = await (swimmingExportReady ??= loadSwimmingFrames(count));
+
+    if (poses.length !== 87 || poses.some(pose => pose.length !== count)) {
+        throw new Error("Expected 87 swimming poses with 3500 points each");
+    }
+
+    const selected = part === "start" ? poses.slice(0, 6) : poses.slice(6);
+    const bytes = new DataView(new ArrayBuffer(selected.length * count * 4));
+    let offset = 0;
+
+    for (const pose of selected) {
+        for (const [x, y] of pose) {
+            bytes.setUint16(offset, x, true);
+            bytes.setUint16(offset + 2, y, true);
+            offset += 4;
+        }
+    }
+
+    const url = URL.createObjectURL(new Blob([bytes.buffer]));
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `swimming-${part}.bin`;
+    link.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+};
 
 async function playSwimming() {
-    const frames = await (swimmingFramesReady ??= loadSwimmingFrames());
-    const startedAt = performance.now();
-    let lastFrame = -1;
+    const start = await (swimmingStart ??= readSwimmingChunk("start", firstChunkPoses));
+    if (!start) throw new Error("Could not load the first swimming poses");
+
+    let rest = null;
+    let restFailed = false;
+    (swimmingRest ??= readSwimmingChunk("rest", 81)).then(
+        chunk => { rest = chunk; },
+        error => {
+            console.error(error);
+            swimmingRest = undefined;
+            restFailed = true;
+        }
+    );
+
+    let elapsed = 0;
+    let previousTime;
+    let lastPose = -1;
+    showingPortrait = true;
 
     function nextFrame(now) {
-        const sourceFrame = Math.floor((now - startedAt) * 30 / 1000);
-        if (sourceFrame >= swimmingFrameCount) {
-            showNextPhrase();
-            return;
+        elapsed += now - (previousTime ?? now);
+        previousTime = now;
+
+        if (!rest && elapsed >= 1000) {
+            elapsed = 1000;
+            if (restFailed) {
+                if (!swimmingPage) showNextPhrase();
+                return;
+            }
         }
 
-        const frame = Math.floor(sourceFrame / 5);
-        if (frame !== lastFrame) {
-            lastFrame = frame;
-            points = frames[frame];
+        const duration = 431 / 30 * 1000;
+        if (elapsed >= duration) {
+            if (!swimmingPage) {
+                showNextPhrase();
+                return;
+            }
+            elapsed %= duration;
+        }
+
+        const pose = Math.min(Math.floor(elapsed * 6 / 1000), rest ? 86 : 5);
+        if (pose !== lastPose) {
+            lastPose = pose;
+            const chunk = pose < firstChunkPoses ? start : rest;
+            const localPose = pose < firstChunkPoses ? pose : pose - firstChunkPoses;
+
+            points = Array.from({ length: particleCount }, (_, i) => {
+                const id = Math.floor(i * savedParticleCount / particleCount);
+                const offset = (localPose * savedParticleCount + id) * 4;
+                return [
+                    chunk.getUint16(offset, true),
+                    chunk.getUint16(offset + 2, true),
+                ];
+            });
             targetData.fill(0);
             uploadTargets();
         }
@@ -434,10 +526,8 @@ async function playSwimming() {
         requestAnimationFrame(nextFrame);
     }
 
-    showingPortrait = true;
     requestAnimationFrame(nextFrame);
 }
-
 async function showNextPhrase() {
 
    
@@ -450,7 +540,7 @@ async function showNextPhrase() {
     try {
         await playSwimming();
     } catch (error) {
-        swimmingFramesReady = undefined;
+        swimmingStart = undefined;
         console.warn("Could not load the swimming frames", error);
         showNextPhrase();
     }
@@ -508,7 +598,11 @@ function typeNextLetter(hold) {
 }
 
        window.addEventListener("resize", uploadTargets);
+    if (swimmingPage) {
+    playSwimming().catch(console.error);
+} else {
     showNextPhrase();
+}
     requestAnimationFrame(update);
 }
 
