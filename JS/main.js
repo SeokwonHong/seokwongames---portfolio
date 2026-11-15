@@ -329,10 +329,11 @@ const phrases = [
     { text: "Check this out!", finger: true, hold: 2500 },
     { swimming: true },
 
-    //{ text: "btw...", hold: 2200 },
-   // { countryGreeting: true, hold: 2800 },
-    //{ distanceGreeting: true, hold: 2700 },
-  //  { text: "Glad you're here :)", hold: 2700 },
+    { text: "Still there? :)", hold: 2200 },
+    { countryGreeting: true, hold: 2800 },
+    { distanceGreeting: true, hold: 2700 },
+    { text: "Small world haha", hold: 2700 },
+    { text: "^^", hold: 2700 },
   //  { text: "", hold: 2700 },
     
 
