@@ -27,8 +27,13 @@ async function main()
         console.warn("WebGPU startup failed", error);
     }
 
-    const particleCount = gpuContext ? 3500 : 2400;
-    const particleDiameter = 10;
+    const defaultCount = gpuContext ? 3500 : 2400;
+    const count = Number(canvas.dataset.particleCount);
+    const size = Number(canvas.dataset.particleSize);
+
+    const particleCount = Number.isSafeInteger(count) && count > 0 ? count : defaultCount;
+    const particleDiameter = Number.isFinite(size) && size > 0 ? size : 10;
+
     const canvasFormat = gpuContext ? navigator.gpu.getPreferredCanvasFormat() : null;
     const particleSizeBuffer = gpuContext ? device.createBuffer({
         size: 8,
@@ -611,8 +616,35 @@ function typeNextLetter(hold) {
     }
 }
 
+
        window.addEventListener("resize", uploadTargets);
-    if (swimmingPage) {
+
+
+   if (canvas.hasAttribute("data-particle-clock")) {
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const clock = new Intl.DateTimeFormat("en-GB", {
+        timeZone,
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hourCycle: "h23",
+    });
+
+    function updateClock() {
+        const time = clock.format(new Date());
+        phrase = visitorCountry ? `${visitorCountry}   ${time}` : time;
+        visibleLength = phrase.length;
+        const nextPoints = sampleTextPoints(textCanvas, phrase, particleCount);
+        points = matchSwimmingTargets(points, nextPoints);
+        targetData.fill(0);
+        uploadTargets();
+        canvas.setAttribute("aria-label", `Local time ${phrase}`);
+
+        setTimeout(updateClock, 1000 - (Date.now() % 1000));
+    }
+
+    updateClock();
+} else if (swimmingPage) {
     playSwimming().catch(console.error);
 } else {
     showNextPhrase();
@@ -620,9 +652,6 @@ function typeNextLetter(hold) {
     requestAnimationFrame(update);
 }
 
-main().catch((error) => {
-    console.error(error);
-});
-
+main().catch(console.error);
 
 ////////////
