@@ -113,7 +113,37 @@ nav a.active {
   width: 75%;
   border-radius: 10px;
 }
+.about-credits {
+  max-width: 1080px;
+  margin: 40px auto 0;
+  padding: 24px 16px 0;
+  border-top: 1px solid #ddd;
+  text-align: left;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: 80px;
+}
 
+@media (max-width: 850px) {
+  .about-credits {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+.about-credits ul {
+  list-style: none;
+  padding: 0;
+}
+
+.about-credits li {
+  margin: 12px 0;
+  line-height: 1.5;
+}
+
+.about-credits h2:not(:first-child) {
+  margin-top: 32px;
+}
 
 /* PROJECTS */
 
