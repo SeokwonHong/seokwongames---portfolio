@@ -33,7 +33,7 @@ async function main()
 
     const particleCount = Number.isSafeInteger(count) && count > 0 ? count : defaultCount;
     const particleDiameter = Number.isFinite(size) && size > 0 ? size : 10;
-    const mouseRadiusPx = 180;
+    const mouseRadiusPx = 145;
 
     const canvasFormat = gpuContext ? navigator.gpu.getPreferredCanvasFormat() : null;
     const particleSizeBuffer = gpuContext ? device.createBuffer({
