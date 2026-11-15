@@ -350,14 +350,20 @@ function uploadTargets() {
         drawText(textCanvas, phrase, visibleLength);
         data = textContext.getImageData(0, 0, width, height).data;
     }
-
+    
     const scale = Math.min(1, canvas.width / width, canvas.height / height);
+    const alignLeft = canvas.dataset.particleAlign === "left";
+const leftmostX = alignLeft
+    ? points.reduce((left, [x]) => Math.min(left, x), width)
+    : 0;
 
     points.forEach(([x, y, isFinger], i) => {
     const offset = i * 4;
     const lift = showingPortrait || isFinger ? 20 : 0;
 
-    targetData[offset] = (2 * x + 1 - width) * scale / canvas.width;
+    targetData[offset] = alignLeft
+    ? ((2 * (x - leftmostX) + 1) * scale + particleDiameter) / canvas.width - 1
+    : (2 * x + 1 - width) * scale / canvas.width;
     targetData[offset + 1] = ((height - 2 * y - 1) * scale + lift) / canvas.height;
     targetData[offset + 2] =
         isFinger || data === null || data[(y * width + x) * 4 + 3] > 128 ? 1 : 0;
@@ -621,6 +627,11 @@ function typeNextLetter(hold) {
 
 
    if (canvas.hasAttribute("data-particle-clock")) {
+    const font = textCanvas.dataset.particleFont;
+    if (font) {
+        await document.fonts.load(font, "0123456789:").catch(() => {});
+    }
+
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const clock = new Intl.DateTimeFormat("en-GB", {
         timeZone,

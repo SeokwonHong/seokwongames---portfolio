@@ -9,6 +9,9 @@
   <link rel="icon" type="image/png" href="/images/favicon.png">
 
   <link rel="stylesheet" href="/CSS/style.css"> <!-- for css file link -->
+
+  <link rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Caveat:wght@400&amp;display=swap">
 </head>
 
 <body>
@@ -24,6 +27,10 @@
   </header>
 
 <main>
+
+
+
+
     <section class="about-section">
 
       <div class="about-image">
@@ -53,20 +60,23 @@
         <a href="mailto:contact@seokwongames.com">
           contact@seokwongames.com
         </a>
+          <div style="width: 100%; margin: 32px auto 0; background: #1C1C1C; isolation: isolate;">
+        <canvas id="gpuCanvas" data-particle-clock data-particle-align="left"
+          data-particle-count="1500" data-particle-size="4.5"
+          style="height: 180px; background: white; mix-blend-mode: screen;"
+          aria-label="Local time"></canvas>
+      </div>
+      <canvas id="textPreview" width="2200" height="300" hidden
+        data-particle-font='400 180px Arial, sans-serif'></canvas>
+
       </div>
 
-
+      
 
 
     </section>
 
-        <div style="width: 80%; margin: 32px auto 0; background: #1C1C1C; isolation: isolate;">
-  <canvas id="gpuCanvas" data-particle-clock
-    data-particle-count="1500" data-particle-size="3.6"
-    style="height: 180px; background: white; mix-blend-mode: screen;"
-    aria-label="Local time"></canvas>
-</div>
-<canvas id="textPreview" width="2200" height="300" hidden></canvas>
+        
   </main>
 
 <footer>
