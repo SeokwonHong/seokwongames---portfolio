@@ -333,7 +333,7 @@ const phrases = [
     { countryGreeting: true, hold: 2800 },
     { distanceGreeting: true, hold: 2700 },
     { text: "Small world haha", hold: 2700 },
-    { text: "^^", hold: 2700 },
+    { text: "╰( ^o^)╮╰( ^o^)╮", hold: 3000 },
   //  { text: "", hold: 2700 },
     
 
