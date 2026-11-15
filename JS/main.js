@@ -346,11 +346,11 @@ function uploadTargets() {
     const { width, height } = textCanvas;
     let data = null;
 
-    if (!showingPortrait) {
+    if (!showingPortrait && !canvas.hasAttribute("data-particle-clock")) {
         drawText(textCanvas, phrase, visibleLength);
         data = textContext.getImageData(0, 0, width, height).data;
     }
-    
+
     const scale = Math.min(1, canvas.width / width, canvas.height / height);
     const alignLeft = canvas.dataset.particleAlign === "left";
 const leftmostX = alignLeft
@@ -642,17 +642,20 @@ function typeNextLetter(hold) {
     });
 
     function updateClock() {
-        const time = clock.format(new Date());
-        phrase = visitorCountry ? `${visitorCountry}   ${time}` : time;
-        visibleLength = phrase.length;
-        const nextPoints = sampleTextPoints(textCanvas, phrase, particleCount);
-        points = matchSwimmingTargets(points, nextPoints);
-        targetData.fill(0);
-        uploadTargets();
-        canvas.setAttribute("aria-label", `Local time ${phrase}`);
+    const now = Date.now();
+    setTimeout(updateClock, 1000 - (now % 1000));
 
-        setTimeout(updateClock, 1000 - (Date.now() % 1000));
-    }
+    const time = clock.format(now);
+    phrase = visitorCountry ? `${visitorCountry}   ${time}` : time;
+    visibleLength = phrase.length;
+    const nextPoints = sampleTextPoints(textCanvas, phrase, particleCount);
+    points = matchSwimmingTargets(points, nextPoints);
+    targetData.fill(0);
+    uploadTargets();
+    canvas.setAttribute("aria-label", `Local time ${phrase}`);
+}
+
+updateClock();
 
     updateClock();
 } else if (swimmingPage) {
