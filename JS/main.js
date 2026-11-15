@@ -290,7 +290,8 @@ const textContext = textCanvas.getContext("2d");
 const portraitPointsReady = sampleImagePoints(
     textCanvas,
     new URL("../images/TwoColourMe.png", import.meta.url),
-    particleCount
+    particleCount,
+    { size: 0.55 }
 ).catch((error) => {
     console.warn("Could not load the particle portrait", error);
     return [];

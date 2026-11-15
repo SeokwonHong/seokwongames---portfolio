@@ -103,10 +103,12 @@ nav a.active {
 
 .about-text {
   width: 80%;
+  font-size: 18px;
+  line-height: 1.5;
 }
 
 .about-image img {
-  width: 90%;
+  width: 80%;
   border-radius: 10px;
 }
 
