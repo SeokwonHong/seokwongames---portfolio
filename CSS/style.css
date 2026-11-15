@@ -97,7 +97,7 @@ nav a.active {
 .about-section {
   display: flex;
   align-items: center;
-  gap: 30px;
+  gap: 5px;
 }
 
 
@@ -106,9 +106,11 @@ nav a.active {
   font-size: 18px;
   line-height: 1.5;
 }
-
+.about-image {
+  flex: 0 0 min(520px, 35%);
+}
 .about-image img {
-  width: 80%;
+  width: 75%;
   border-radius: 10px;
 }
 
