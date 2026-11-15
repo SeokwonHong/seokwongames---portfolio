@@ -1,4 +1,4 @@
-export function createCanvas2DRenderer(canvas, input, particles, targets, diameter) {
+export function createCanvas2DRenderer(canvas, input, particles, targets, diameter,mouseRadiusPx) {
     const context = canvas.getContext("2d");
     if (!context) throw new Error("Could not create Canvas 2D context");
 
@@ -10,6 +10,7 @@ export function createCanvas2DRenderer(canvas, input, particles, targets, diamet
         const edgeY = Math.max(0, 1 - diameter / height);
         const textDamping = Math.exp(-13 * deltaTime);
         const freeDamping = Math.exp(-3 * deltaTime);
+        const mouseRadius = (2 * mouseRadiusPx) / height;
 
         context.clearRect(0, 0, width, height);
         context.fillStyle = "black";
@@ -26,8 +27,8 @@ export function createCanvas2DRenderer(canvas, input, particles, targets, diamet
                 const dy = y - input.mouseY;
                 const distance = Math.hypot(dx * aspect, dy);
 
-                if (distance > 0.0001 && distance < 0.35) {
-                    const push =  70.5 * (1 - distance / 0.35) * deltaTime / distance;
+                if (distance > 0.0001 && distance < mouseRadius) {
+                    const push =  50.5 * (1 - distance / mouseRadius) * deltaTime / distance;
                     vx += dx * push;
                     vy += dy * push;
                 }

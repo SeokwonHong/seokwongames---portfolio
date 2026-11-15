@@ -7,6 +7,7 @@ struct Frame {
     mouse: vec2f,
     deltaTime: f32,
     aspect: f32,
+    mouseRadius: f32,
 };
 
 @group(0) @binding(0) var<storage, read_write> particles: array<Particle>;
@@ -23,8 +24,8 @@ fn updateParticles(@builtin(global_invocation_id) id: vec3u) {
     var particle = particles[id.x];
     let away = particle.position - frame.mouse;
     let distanceToMouse = length(away * vec2f(frame.aspect, 1.0));
-    let radius = 0.35;
-    let strength = 70.5;
+    let radius = frame.mouseRadius;
+    let strength = 50.5;
 
         if (distanceToMouse > 0.0001 && distanceToMouse < radius) {
         let falloff = 1.5 - distanceToMouse / radius;

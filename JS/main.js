@@ -33,6 +33,7 @@ async function main()
 
     const particleCount = Number.isSafeInteger(count) && count > 0 ? count : defaultCount;
     const particleDiameter = Number.isFinite(size) && size > 0 ? size : 10;
+    const mouseRadiusPx = 180;
 
     const canvasFormat = gpuContext ? navigator.gpu.getPreferredCanvasFormat() : null;
     const particleSizeBuffer = gpuContext ? device.createBuffer({
@@ -126,7 +127,7 @@ async function main()
     const targetData = new Float32Array(particleCount * 4);
  const renderer = gpuContext
      ? await createWebGPURenderer()
-     : { render: createCanvas2DRenderer(canvas, input, particleData, targetData, particleDiameter) };
+     : { render: createCanvas2DRenderer(canvas, input, particleData, targetData, particleDiameter, mouseRadiusPx) };
 
  async function createWebGPURenderer() {
 
@@ -220,7 +221,7 @@ const computePipeline = device.createComputePipeline({
 });
 
 const frameBuffer = device.createBuffer({
-    size: 16,
+    size: 24,
     usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
 });
 
@@ -242,11 +243,12 @@ const computeBindGroup = device.createBindGroup({
 
     function render(deltaTime) {
     device.queue.writeBuffer(frameBuffer, 0, new Float32Array([
-        input.mouseX,
-        input.isInsideCanvas ? input.mouseY : 2, // Put the mouse outside the canvas.
-        deltaTime,
-        canvas.width / canvas.height,
-    ]));
+    input.mouseX,
+    input.mouseY,
+    deltaTime,
+    canvas.width / canvas.height,
+    input.isInsideCanvas ? (2 * mouseRadiusPx) / canvas.height : 0,
+]));
 
     const encoder = device.createCommandEncoder();
     const computePass = encoder.beginComputePass();
