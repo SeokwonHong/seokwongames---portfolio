@@ -302,7 +302,7 @@ sampleImagePoints(
     textCanvas,
     new URL("../images/Pointingfinger.png", import.meta.url),
     Math.round(particleCount * 0.3),
-    { size: 0.3, offsetX: -50, offsetY: -330 }
+    { size: 0.3, offsetX: -44, offsetY: -330 }
 ).then((samples) => {
     fingerPoints = samples.map(([x, y]) => [x, y, true]);
 }).catch((error) => {
