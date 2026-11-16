@@ -181,6 +181,38 @@ nav a.active {
 .project-card:hover video {
   transform: scale(1.02);
 }
+
+.project-title-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin: 15px 0 5px;
+}
+
+.project-card .project-title-row h2 {
+  margin: 0;
+}
+.project-laurel-slot {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+}
+
+.project-laurel-slot .project-laurel {
+  position: absolute;
+  top: -3px;
+  left: 0;
+}
+.project-card .project-laurel {
+  width: 87px;
+  height: auto;
+  aspect-ratio: auto;
+  border-radius: 0;
+}
+
+.project-card:hover .project-laurel {
+  transform: none;
+}
 /*Project - details*/
 
 .project-details {
