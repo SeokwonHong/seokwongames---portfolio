@@ -270,8 +270,34 @@ nav a.active {
   border: none;
   display: block;
 }
+/* Read the Articles*/
+.read-article {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
 
+  width: 100%;
+  min-height: 50px;
+  margin: 20px 0;
+  padding: 12px 20px;
+  box-sizing: border-box;
 
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  background: #f5f5f5;
+  color: #0a0a0a;
+
+  font-weight: bold;
+  font-size: 20px;
+  text-align: center;
+  text-decoration: none;
+}
+
+.read-article:focus-visible {
+  outline: 2px solid #111;
+  outline-offset: 4px;
+}
 /* project inner pages*/
 
 .project-page {
