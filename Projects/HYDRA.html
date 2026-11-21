@@ -200,4 +200,28 @@
 
 </body>
 
+
+
+<script>
+(() => {
+  const game = document.querySelector(".game-container iframe");
+  let visible = false;
+
+  function updateSound() {
+    game.contentWindow.setGameMuted?.(
+      document.hidden || !visible
+    );
+  }
+
+  const observer = new IntersectionObserver(([entry]) => {
+    visible = entry.isIntersecting;
+    updateSound();
+  });
+
+  observer.observe(game);
+  game.addEventListener("load", updateSound);
+  document.addEventListener("visibilitychange", updateSound);
+})();
+</script>
+
 </html>

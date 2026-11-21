@@ -23,6 +23,43 @@
         <div id="unity-build-title">HYDRA</div>
       </div>
     </div>
+
+    <script>
+(() => {
+  const volumeControls = new Map();
+  const originalConnect = AudioNode.prototype.connect;
+  let muted = window.parent !== window;
+
+  AudioNode.prototype.connect = function(destination, ...args) {
+    if (destination === this.context.destination) {
+      let volume = volumeControls.get(this.context);
+
+      if (!volume) {
+        volume = this.context.createGain();
+        volume.gain.value = muted ? 0 : 1;
+
+        originalConnect.call(volume, this.context.destination);
+        volumeControls.set(this.context, volume);
+      }
+
+      return originalConnect.call(this, volume, ...args);
+    }
+
+    return originalConnect.call(this, destination, ...args);
+  };
+
+  window.setGameMuted = (value) => {
+    muted = Boolean(value);
+
+    for (const volume of volumeControls.values()) {
+      const now = volume.context.currentTime;
+      volume.gain.cancelScheduledValues(now);
+      volume.gain.setTargetAtTime(muted ? 0 : 1, now, 0.015);
+    }
+  };
+})();
+</script>
+
     <script>
 
       var container = document.querySelector("#unity-container");
