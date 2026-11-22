@@ -323,9 +323,9 @@ fetch("/api/country")
     
 const phrases = [
     { text: "Hello!", hold: 2000 },
-    { text: "I'm Seokwon", hold: 2600 },
-    { portrait: true, hold: 3200 },
-    { text: "I make COOL stuff", hold: 3000 },
+    { text: "I'm Seokwon", hold: 2300 },
+    { portrait: true, hold: 2500 },
+    { text: "I make COOL stuff", hold: 2600 },
     { text: "Check this out!", finger: true, hold: 2500 },
     { swimming: true },
 
