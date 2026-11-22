@@ -5,8 +5,18 @@
     "title": "01-hydra"
   },
   {
-    "src": "02-HYDRA_drawing_video.mp4",
+    "src": "02-hydra%20presentation.jpg",
+    "type": "image",
+    "title": "02-hydra presentation"
+  },
+  {
+    "src": "03-hydra%20presentation.jpg",
+    "type": "image",
+    "title": "03-hydra presentation"
+  },
+  {
+    "src": "05-HYDRA_drawing_video.mp4",
     "type": "video",
-    "title": "02-HYDRA_drawing_video"
+    "title": "05-HYDRA_drawing_video"
   }
 ]
