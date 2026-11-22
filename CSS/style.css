@@ -479,7 +479,11 @@ nav a.active {
   display: block;
   aspect-ratio: 16 / 9;
   overflow: hidden;
-  background: #000;
+  background: transparent;
+}
+.media-frame,
+.media-frame > video {
+  background: transparent;
 }
 
 .media-frame > img,
