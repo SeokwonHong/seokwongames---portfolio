@@ -463,7 +463,84 @@ nav a.active {
     max-width: 1460px;
   }
 }
+/* Shared project media panel */
+.media-panel {
+  min-width: 0;
+}
 
+.media-preview {
+  margin: 0 0 20px;
+}
+
+/* Fixed frames with black unused space */
+.media-frame,
+.media-card-frame {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #000;
+}
+
+.media-frame > img,
+.media-frame > video,
+.media-card-frame > img,
+.media-card-frame > video {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.media-preview figcaption {
+  margin-top: 10px;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: #555;
+}
+
+/* Four cards per row */
+.media-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.media-card {
+  min-width: 0;
+  padding: 0;
+  border: 1px solid #ddd;
+  background: #fff;
+  color: #111;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.media-card[aria-pressed="true"],
+.media-card:hover {
+  border-color: #111;
+}
+
+.media-card:focus-visible {
+  outline: 2px solid #111;
+  outline-offset: 3px;
+}
+
+.media-card-frame > img,
+.media-card-frame > video {
+  pointer-events: none;
+}
+
+.media-card-label {
+  display: block;
+  padding: 8px;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
 /*GPU Canvas*/
 .home-page {
   display: grid;

@@ -12,6 +12,7 @@
   
   <!--Sticky contents panel-->
   <script src="../JS/contents.js" defer></script>
+  <script src="../JS/media-panel.js" defer></script>
 </head>
 
 <body>
@@ -180,7 +181,62 @@
 </section>
 
 
-  </section>
+<section class="project-section">
+  <h2 id="media">Media</h2>
+
+  <div class="media-panel" data-media-panel>
+    <figure class="media-preview">
+      <div class="media-frame" data-media-viewer>
+        <video
+          src="../videos/HYDRA_video.mp4"
+          controls
+          playsinline
+          preload="metadata">
+        </video>
+      </div>
+    </figure>
+
+    <div class="media-grid">
+      <button
+        type="button"
+        class="media-card"
+        data-type="video"
+        data-src="../videos/HYDRA_video.mp4"
+        data-title="Gameplay"
+        aria-pressed="true">
+        <span class="media-card-frame">
+          <video
+            src="../videos/HYDRA_video.mp4#t=0.1"
+            muted
+            playsinline
+            preload="metadata"
+            aria-hidden="true"
+            tabindex="-1">
+          </video>
+        </span>
+      </button>
+
+      <button
+        type="button"
+        class="media-card"
+        data-type="video"
+        data-src="../videos/HYDRA_drawing_video.mp4"
+        data-title="Pheromone control"
+        aria-pressed="false">
+        <span class="media-card-frame">
+          <video
+            src="../videos/HYDRA_drawing_video.mp4#t=0.1"
+            muted
+            playsinline
+            preload="metadata"
+            aria-hidden="true"
+            tabindex="-1">
+          </video>
+        </span>
+      </button>
+    </div>
+  </div>
+</section>
 
 
 
