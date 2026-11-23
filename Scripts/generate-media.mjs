@@ -11,10 +11,7 @@ const videos = new Set([".mp4", ".webm", ".ogv"]);
 
 await mkdir(root, { recursive: true });
 
-for (const project of await readdir(root, { withFileTypes: true })) {
-  if (!project.isDirectory()) continue;
-
-  const folder = new URL(`${encodeURIComponent(project.name)}/`, root);
+async function generate(folder) {
   const files = await readdir(folder, { withFileTypes: true });
 
   files.sort((a, b) =>
@@ -24,6 +21,10 @@ for (const project of await readdir(root, { withFileTypes: true })) {
   const items = [];
 
   for (const file of files) {
+    if (file.isDirectory()) {
+      await generate(new URL(`${encodeURIComponent(file.name)}/`, folder));
+      continue;
+    }
     if (!file.isFile()) continue;
 
     const extension = extname(file.name).toLowerCase();
@@ -46,4 +47,9 @@ for (const project of await readdir(root, { withFileTypes: true })) {
     new URL("gallery.json", folder),
     JSON.stringify(items, null, 2)
   );
+}
+
+for (const project of await readdir(root, { withFileTypes: true })) {
+  if (!project.isDirectory()) continue;
+  await generate(new URL(`${encodeURIComponent(project.name)}/`, root));
 }
