@@ -14,32 +14,38 @@ document.querySelectorAll("[data-media-panel]").forEach(async panel => {
       return;
     }
 
-    // Each panel gets its own overlay.
+    if (items.some(item =>
+      !item.thumbAvif || !item.thumbWebp || !item.preview
+    )) {
+      throw new Error("Run the media generator to create previews.");
+    }
+
     const dialog = document.createElement("dialog");
     dialog.className = "media-lightbox";
     dialog.setAttribute("aria-label", "Media viewer");
+
     dialog.innerHTML = `
       <div class="lightbox-toolbar">
-       <button type="button" data-previous aria-label="Previous media">
-  <svg viewBox="0 0 24 24" aria-hidden="true">
-    <path d="M15 6 L9 12 L15 18"/>
-  </svg>
-</button>
-
-<button type="button" data-next aria-label="Next media">
-  <svg viewBox="0 0 24 24" aria-hidden="true">
-    <path d="M9 6 L15 12 L9 18"/>
-  </svg>
-</button>
-     
+        <button type="button" data-previous aria-label="Previous media">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M15 6 L9 12 L15 18"/>
+          </svg>
+        </button>
+        <button type="button" data-next aria-label="Next media">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M9 6 L15 12 L9 18"/>
+          </svg>
+        </button>
       </div>
       <div class="lightbox-viewer"></div>
     `;
+
     document.body.append(dialog);
 
     const viewer = dialog.querySelector(".lightbox-viewer");
     let selectedIndex = 0;
     let previousOverflow = "";
+    let nearbyImages = [];
 
     function clearViewer() {
       const video = viewer.querySelector("video");
@@ -54,28 +60,40 @@ document.querySelectorAll("[data-media-panel]").forEach(async panel => {
     }
 
     function createMedia(item, thumbnail = false) {
+      if (thumbnail) {
+        const picture = document.createElement("picture");
+        const source = document.createElement("source");
+        const image = document.createElement("img");
+
+        picture.setAttribute("aria-hidden", "true");
+        picture.append(source, image);
+
+        source.type = "image/avif";
+        source.srcset = new URL(item.thumbAvif, folder).href;
+
+        image.alt = "";
+        image.loading = "lazy";
+        image.decoding = "async";
+        image.src = new URL(item.thumbWebp, folder).href;
+
+        return picture;
+      }
+
       const isVideo = item.type === "video";
       const element = document.createElement(isVideo ? "video" : "img");
 
       if (isVideo) {
-        element.controls = !thumbnail;
-        element.muted = thumbnail;
+        element.controls = true;
         element.playsInline = true;
-        element.preload = "metadata";
+        element.preload = "none";
+        element.poster = new URL(item.preview, folder).href;
         element.setAttribute("aria-label", item.title);
+        element.src = new URL(item.src, folder).href;
       } else {
-        element.alt = thumbnail ? "" : item.title;
-        element.loading = thumbnail ? "lazy" : "eager";
+        element.alt = item.title;
         element.decoding = "async";
-      }
-
-      const source = new URL(item.src, folder);
-      if (isVideo && thumbnail) source.hash = "t=0.1";
-      element.src = source.href;
-
-      if (thumbnail) {
-        element.setAttribute("aria-hidden", "true");
-        element.tabIndex = -1;
+        element.fetchPriority = "high";
+        element.src = new URL(item.preview, folder).href;
       }
 
       return element;
@@ -92,6 +110,17 @@ document.querySelectorAll("[data-media-panel]").forEach(async panel => {
         dialog.showModal();
         document.documentElement.style.overflow = "hidden";
       }
+
+      // Prepare adjacent images/posters, never video files.
+      nearbyImages = [-1, 1].map(offset => {
+        const next = (selectedIndex + offset + items.length) % items.length;
+        const image = new Image();
+
+        image.fetchPriority = "low";
+        image.src = new URL(items[next].preview, folder).href;
+
+        return image;
+      });
     }
 
     dialog.querySelector("[data-previous]").addEventListener("click", () => {
@@ -103,13 +132,12 @@ document.querySelectorAll("[data-media-panel]").forEach(async panel => {
     });
 
     dialog.addEventListener("click", event => {
-      if (event.target === dialog) {
-        dialog.close();
-      }
+      if (event.target === dialog) dialog.close();
     });
-    // Escape also closes a native dialog.
+
     dialog.addEventListener("close", () => {
       clearViewer();
+      nearbyImages = [];
       document.documentElement.style.overflow = previousOverflow;
     });
 

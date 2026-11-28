@@ -2,256 +2,409 @@
   {
     "src": "01.mp4",
     "type": "video",
-    "title": "01"
+    "title": "01",
+    "thumbAvif": "_generated/01.mp4.thumb.avif",
+    "thumbWebp": "_generated/01.mp4.thumb.webp",
+    "preview": "_generated/01.mp4.preview.webp"
   },
   {
     "src": "02.mp4",
     "type": "video",
-    "title": "02"
+    "title": "02",
+    "thumbAvif": "_generated/02.mp4.thumb.avif",
+    "thumbWebp": "_generated/02.mp4.thumb.webp",
+    "preview": "_generated/02.mp4.preview.webp"
   },
   {
     "src": "03.png",
     "type": "image",
-    "title": "03"
+    "title": "03",
+    "thumbAvif": "_generated/03.png.thumb.avif",
+    "thumbWebp": "_generated/03.png.thumb.webp",
+    "preview": "_generated/03.png.preview.webp"
   },
   {
     "src": "04.png",
     "type": "image",
-    "title": "04"
+    "title": "04",
+    "thumbAvif": "_generated/04.png.thumb.avif",
+    "thumbWebp": "_generated/04.png.thumb.webp",
+    "preview": "_generated/04.png.preview.webp"
   },
   {
     "src": "05.mp4",
     "type": "video",
-    "title": "05"
+    "title": "05",
+    "thumbAvif": "_generated/05.mp4.thumb.avif",
+    "thumbWebp": "_generated/05.mp4.thumb.webp",
+    "preview": "_generated/05.mp4.preview.webp"
   },
   {
     "src": "06.mp4",
     "type": "video",
-    "title": "06"
+    "title": "06",
+    "thumbAvif": "_generated/06.mp4.thumb.avif",
+    "thumbWebp": "_generated/06.mp4.thumb.webp",
+    "preview": "_generated/06.mp4.preview.webp"
   },
   {
     "src": "07.png",
     "type": "image",
-    "title": "07"
+    "title": "07",
+    "thumbAvif": "_generated/07.png.thumb.avif",
+    "thumbWebp": "_generated/07.png.thumb.webp",
+    "preview": "_generated/07.png.preview.webp"
   },
   {
     "src": "08.png",
     "type": "image",
-    "title": "08"
+    "title": "08",
+    "thumbAvif": "_generated/08.png.thumb.avif",
+    "thumbWebp": "_generated/08.png.thumb.webp",
+    "preview": "_generated/08.png.preview.webp"
   },
   {
     "src": "09.png",
     "type": "image",
-    "title": "09"
+    "title": "09",
+    "thumbAvif": "_generated/09.png.thumb.avif",
+    "thumbWebp": "_generated/09.png.thumb.webp",
+    "preview": "_generated/09.png.preview.webp"
   },
   {
     "src": "10.png",
     "type": "image",
-    "title": "10"
+    "title": "10",
+    "thumbAvif": "_generated/10.png.thumb.avif",
+    "thumbWebp": "_generated/10.png.thumb.webp",
+    "preview": "_generated/10.png.preview.webp"
   },
   {
     "src": "11.mp4",
     "type": "video",
-    "title": "11"
+    "title": "11",
+    "thumbAvif": "_generated/11.mp4.thumb.avif",
+    "thumbWebp": "_generated/11.mp4.thumb.webp",
+    "preview": "_generated/11.mp4.preview.webp"
   },
   {
     "src": "12.png",
     "type": "image",
-    "title": "12"
+    "title": "12",
+    "thumbAvif": "_generated/12.png.thumb.avif",
+    "thumbWebp": "_generated/12.png.thumb.webp",
+    "preview": "_generated/12.png.preview.webp"
   },
   {
     "src": "13.png",
     "type": "image",
-    "title": "13"
+    "title": "13",
+    "thumbAvif": "_generated/13.png.thumb.avif",
+    "thumbWebp": "_generated/13.png.thumb.webp",
+    "preview": "_generated/13.png.preview.webp"
   },
   {
     "src": "14.png",
     "type": "image",
-    "title": "14"
+    "title": "14",
+    "thumbAvif": "_generated/14.png.thumb.avif",
+    "thumbWebp": "_generated/14.png.thumb.webp",
+    "preview": "_generated/14.png.preview.webp"
   },
   {
     "src": "15.png",
     "type": "image",
-    "title": "15"
+    "title": "15",
+    "thumbAvif": "_generated/15.png.thumb.avif",
+    "thumbWebp": "_generated/15.png.thumb.webp",
+    "preview": "_generated/15.png.preview.webp"
   },
   {
     "src": "16.mp4",
     "type": "video",
-    "title": "16"
+    "title": "16",
+    "thumbAvif": "_generated/16.mp4.thumb.avif",
+    "thumbWebp": "_generated/16.mp4.thumb.webp",
+    "preview": "_generated/16.mp4.preview.webp"
   },
   {
     "src": "17.png",
     "type": "image",
-    "title": "17"
+    "title": "17",
+    "thumbAvif": "_generated/17.png.thumb.avif",
+    "thumbWebp": "_generated/17.png.thumb.webp",
+    "preview": "_generated/17.png.preview.webp"
   },
   {
     "src": "18.mp4",
     "type": "video",
-    "title": "18"
+    "title": "18",
+    "thumbAvif": "_generated/18.mp4.thumb.avif",
+    "thumbWebp": "_generated/18.mp4.thumb.webp",
+    "preview": "_generated/18.mp4.preview.webp"
   },
   {
     "src": "19.png",
     "type": "image",
-    "title": "19"
+    "title": "19",
+    "thumbAvif": "_generated/19.png.thumb.avif",
+    "thumbWebp": "_generated/19.png.thumb.webp",
+    "preview": "_generated/19.png.preview.webp"
   },
   {
     "src": "20.png",
     "type": "image",
-    "title": "20"
+    "title": "20",
+    "thumbAvif": "_generated/20.png.thumb.avif",
+    "thumbWebp": "_generated/20.png.thumb.webp",
+    "preview": "_generated/20.png.preview.webp"
   },
   {
     "src": "21.1.png",
     "type": "image",
-    "title": "21.1"
+    "title": "21.1",
+    "thumbAvif": "_generated/21.1.png.thumb.avif",
+    "thumbWebp": "_generated/21.1.png.thumb.webp",
+    "preview": "_generated/21.1.png.preview.webp"
   },
   {
     "src": "21.png",
     "type": "image",
-    "title": "21"
+    "title": "21",
+    "thumbAvif": "_generated/21.png.thumb.avif",
+    "thumbWebp": "_generated/21.png.thumb.webp",
+    "preview": "_generated/21.png.preview.webp"
   },
   {
     "src": "22.png",
     "type": "image",
-    "title": "22"
+    "title": "22",
+    "thumbAvif": "_generated/22.png.thumb.avif",
+    "thumbWebp": "_generated/22.png.thumb.webp",
+    "preview": "_generated/22.png.preview.webp"
   },
   {
     "src": "23.png",
     "type": "image",
-    "title": "23"
+    "title": "23",
+    "thumbAvif": "_generated/23.png.thumb.avif",
+    "thumbWebp": "_generated/23.png.thumb.webp",
+    "preview": "_generated/23.png.preview.webp"
   },
   {
     "src": "24.png",
     "type": "image",
-    "title": "24"
+    "title": "24",
+    "thumbAvif": "_generated/24.png.thumb.avif",
+    "thumbWebp": "_generated/24.png.thumb.webp",
+    "preview": "_generated/24.png.preview.webp"
   },
   {
     "src": "25.png",
     "type": "image",
-    "title": "25"
+    "title": "25",
+    "thumbAvif": "_generated/25.png.thumb.avif",
+    "thumbWebp": "_generated/25.png.thumb.webp",
+    "preview": "_generated/25.png.preview.webp"
   },
   {
     "src": "26.png",
     "type": "image",
-    "title": "26"
+    "title": "26",
+    "thumbAvif": "_generated/26.png.thumb.avif",
+    "thumbWebp": "_generated/26.png.thumb.webp",
+    "preview": "_generated/26.png.preview.webp"
   },
   {
     "src": "27.png",
     "type": "image",
-    "title": "27"
+    "title": "27",
+    "thumbAvif": "_generated/27.png.thumb.avif",
+    "thumbWebp": "_generated/27.png.thumb.webp",
+    "preview": "_generated/27.png.preview.webp"
   },
   {
     "src": "28.mp4",
     "type": "video",
-    "title": "28"
+    "title": "28",
+    "thumbAvif": "_generated/28.mp4.thumb.avif",
+    "thumbWebp": "_generated/28.mp4.thumb.webp",
+    "preview": "_generated/28.mp4.preview.webp"
   },
   {
     "src": "29.mp4",
     "type": "video",
-    "title": "29"
+    "title": "29",
+    "thumbAvif": "_generated/29.mp4.thumb.avif",
+    "thumbWebp": "_generated/29.mp4.thumb.webp",
+    "preview": "_generated/29.mp4.preview.webp"
   },
   {
     "src": "30.mp4",
     "type": "video",
-    "title": "30"
+    "title": "30",
+    "thumbAvif": "_generated/30.mp4.thumb.avif",
+    "thumbWebp": "_generated/30.mp4.thumb.webp",
+    "preview": "_generated/30.mp4.preview.webp"
   },
   {
     "src": "31.mp4",
     "type": "video",
-    "title": "31"
+    "title": "31",
+    "thumbAvif": "_generated/31.mp4.thumb.avif",
+    "thumbWebp": "_generated/31.mp4.thumb.webp",
+    "preview": "_generated/31.mp4.preview.webp"
   },
   {
     "src": "32.png",
     "type": "image",
-    "title": "32"
+    "title": "32",
+    "thumbAvif": "_generated/32.png.thumb.avif",
+    "thumbWebp": "_generated/32.png.thumb.webp",
+    "preview": "_generated/32.png.preview.webp"
   },
   {
     "src": "33.png",
     "type": "image",
-    "title": "33"
+    "title": "33",
+    "thumbAvif": "_generated/33.png.thumb.avif",
+    "thumbWebp": "_generated/33.png.thumb.webp",
+    "preview": "_generated/33.png.preview.webp"
   },
   {
     "src": "34.png",
     "type": "image",
-    "title": "34"
+    "title": "34",
+    "thumbAvif": "_generated/34.png.thumb.avif",
+    "thumbWebp": "_generated/34.png.thumb.webp",
+    "preview": "_generated/34.png.preview.webp"
   },
   {
     "src": "35.png",
     "type": "image",
-    "title": "35"
+    "title": "35",
+    "thumbAvif": "_generated/35.png.thumb.avif",
+    "thumbWebp": "_generated/35.png.thumb.webp",
+    "preview": "_generated/35.png.preview.webp"
   },
   {
     "src": "36.png",
     "type": "image",
-    "title": "36"
+    "title": "36",
+    "thumbAvif": "_generated/36.png.thumb.avif",
+    "thumbWebp": "_generated/36.png.thumb.webp",
+    "preview": "_generated/36.png.preview.webp"
   },
   {
     "src": "37.png",
     "type": "image",
-    "title": "37"
+    "title": "37",
+    "thumbAvif": "_generated/37.png.thumb.avif",
+    "thumbWebp": "_generated/37.png.thumb.webp",
+    "preview": "_generated/37.png.preview.webp"
   },
   {
     "src": "38.png",
     "type": "image",
-    "title": "38"
+    "title": "38",
+    "thumbAvif": "_generated/38.png.thumb.avif",
+    "thumbWebp": "_generated/38.png.thumb.webp",
+    "preview": "_generated/38.png.preview.webp"
   },
   {
     "src": "39.png",
     "type": "image",
-    "title": "39"
+    "title": "39",
+    "thumbAvif": "_generated/39.png.thumb.avif",
+    "thumbWebp": "_generated/39.png.thumb.webp",
+    "preview": "_generated/39.png.preview.webp"
   },
   {
     "src": "40.mp4",
     "type": "video",
-    "title": "40"
+    "title": "40",
+    "thumbAvif": "_generated/40.mp4.thumb.avif",
+    "thumbWebp": "_generated/40.mp4.thumb.webp",
+    "preview": "_generated/40.mp4.preview.webp"
   },
   {
     "src": "41.png",
     "type": "image",
-    "title": "41"
+    "title": "41",
+    "thumbAvif": "_generated/41.png.thumb.avif",
+    "thumbWebp": "_generated/41.png.thumb.webp",
+    "preview": "_generated/41.png.preview.webp"
   },
   {
     "src": "42.png",
     "type": "image",
-    "title": "42"
+    "title": "42",
+    "thumbAvif": "_generated/42.png.thumb.avif",
+    "thumbWebp": "_generated/42.png.thumb.webp",
+    "preview": "_generated/42.png.preview.webp"
   },
   {
     "src": "43.png",
     "type": "image",
-    "title": "43"
+    "title": "43",
+    "thumbAvif": "_generated/43.png.thumb.avif",
+    "thumbWebp": "_generated/43.png.thumb.webp",
+    "preview": "_generated/43.png.preview.webp"
   },
   {
     "src": "44.png",
     "type": "image",
-    "title": "44"
+    "title": "44",
+    "thumbAvif": "_generated/44.png.thumb.avif",
+    "thumbWebp": "_generated/44.png.thumb.webp",
+    "preview": "_generated/44.png.preview.webp"
   },
   {
     "src": "45.png",
     "type": "image",
-    "title": "45"
+    "title": "45",
+    "thumbAvif": "_generated/45.png.thumb.avif",
+    "thumbWebp": "_generated/45.png.thumb.webp",
+    "preview": "_generated/45.png.preview.webp"
   },
   {
     "src": "46.png",
     "type": "image",
-    "title": "46"
+    "title": "46",
+    "thumbAvif": "_generated/46.png.thumb.avif",
+    "thumbWebp": "_generated/46.png.thumb.webp",
+    "preview": "_generated/46.png.preview.webp"
   },
   {
     "src": "47.mp4",
     "type": "video",
-    "title": "47"
+    "title": "47",
+    "thumbAvif": "_generated/47.mp4.thumb.avif",
+    "thumbWebp": "_generated/47.mp4.thumb.webp",
+    "preview": "_generated/47.mp4.preview.webp"
   },
   {
     "src": "48.png",
     "type": "image",
-    "title": "48"
+    "title": "48",
+    "thumbAvif": "_generated/48.png.thumb.avif",
+    "thumbWebp": "_generated/48.png.thumb.webp",
+    "preview": "_generated/48.png.preview.webp"
   },
   {
     "src": "49.png",
     "type": "image",
-    "title": "49"
+    "title": "49",
+    "thumbAvif": "_generated/49.png.thumb.avif",
+    "thumbWebp": "_generated/49.png.thumb.webp",
+    "preview": "_generated/49.png.preview.webp"
   },
   {
     "src": "50.png",
     "type": "image",
-    "title": "50"
+    "title": "50",
+    "thumbAvif": "_generated/50.png.thumb.avif",
+    "thumbWebp": "_generated/50.png.thumb.webp",
+    "preview": "_generated/50.png.preview.webp"
   }
 ]

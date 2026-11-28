@@ -488,7 +488,7 @@ nav a.active {
 
 .media-frame > img,
 .media-frame > video,
-.media-card-frame > img,
+.media-card-frame img,
 .media-card-frame > video {
   position: absolute;
   inset: 0;
@@ -533,7 +533,7 @@ nav a.active {
   outline-offset: 3px;
 }
 
-.media-card-frame > img,
+.media-card-frame img,
 .media-card-frame > video {
   pointer-events: none;
 }
