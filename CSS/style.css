@@ -545,6 +545,102 @@ nav a.active {
   line-height: 1.4;
   overflow-wrap: anywhere;
 }
+.media-lightbox {
+  box-sizing: border-box;
+  width: min(85vw, calc(85dvh * 16 / 9));
+  height: auto;
+  aspect-ratio: 16 / 9;
+  max-width: none;
+  max-height: none;
+  margin: auto;
+  padding: 0;
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: #070707;
+  color: #fff;
+}
+
+.media-lightbox[open] {
+  position: fixed;
+  display: block;
+}
+
+
+.media-lightbox::backdrop {
+  background: rgb(0 0 0 / 80%);
+}
+
+.lightbox-toolbar {
+  position: fixed;
+  inset: 0 115px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0;
+  pointer-events: none;
+}
+
+.lightbox-toolbar [data-counter] {
+  position: absolute;
+  left: 0;
+  margin: 0;
+}
+.lightbox-toolbar button {
+  display: grid;
+  place-items: center;
+  width: 90px;
+  height: 90px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgb(0 0 0 / 45%);
+  color: #fff;
+  font: 40px / 1 Arial, sans-serif;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: background 0.15s ease;
+}
+
+.lightbox-toolbar button:hover {
+  background: rgb(0 0 0 / 80%);
+}
+
+.lightbox-toolbar button:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+.lightbox-viewer {
+  position: absolute;
+  inset: 0;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.lightbox-viewer > img,
+.lightbox-viewer > video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  object-fit: contain;
+}
+.lightbox-toolbar button svg {
+  display: block;
+  width: 55px;
+  height: 55px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 /*GPU Canvas*/
 .home-page {
   display: grid;
